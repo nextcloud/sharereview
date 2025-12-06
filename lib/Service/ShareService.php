@@ -212,7 +212,7 @@ class ShareService {
 		$app = $share['appId'] ?? $share['app'];
 		$share['action'] = $share['action'] !== '' ? $share['action'] : $share['id'];
 		$share['action'] = $app . '_' . $share['action'];
-		
+
 		// remap to the required structure to avoid issues with wrong app arrays
 		$data = [
 			'app' => $share['app'],
@@ -243,22 +243,23 @@ class ShareService {
 			}
 			$path = '';
 
-			// Retrieve the file object using the file_source
-			try {
-				$userFolder = $this->rootFolder->getUserFolder($share['uid_initiator']);
-				$file = $userFolder->getById($share['file_source']);
-				if (!empty($file)) {
-					$path = $file[0]->getPath() . ';' . $file[0]->getName();
-				}
-			} catch (NotFoundException $e) {
-				$this->logger->error('File not found for file_source: ' . $share['file_source']);
-			} catch (NotPermittedException $e) {
-				$this->logger->error('Access not permitted for file_source: ' . $share['file_source']);
-			}
-
 			if (!$this->userHelper->isValidOwner($share['uid_initiator'])) {
 				$path = 'invalid share (*) ';
+			} else {
+				// Retrieve the file object using the file_source
+				try {
+					$userFolder = $this->rootFolder->getUserFolder($share['uid_initiator']);
+					$file = $userFolder->getById($share['file_source']);
+					if (!empty($file)) {
+						$path = $file[0]->getPath() . ';' . $file[0]->getName();
+					}
+				} catch (NotFoundException $e) {
+					$this->logger->error('File not found for file_source: ' . $share['file_source']);
+				} catch (NotPermittedException $e) {
+					$this->logger->error('Access not permitted for file_source: ' . $share['file_source']);
+				}
 			}
+
 			$recipient = $share['share_with'];
 
 			switch ((int)$share['share_type']) {
