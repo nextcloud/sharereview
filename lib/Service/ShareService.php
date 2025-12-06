@@ -31,91 +31,52 @@ use OCP\IL10N;
 
 class ShareService {
 
-	/** @var IAppConfig */
-	protected $appConfig;
-	/** @var IConfig */
-	protected $config;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var ShareManager */
-	private $shareManager;
-	/** @var ShareMapper */
-	private $shareMapper;
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var IUserSession */
-	private $userSession;
-	protected UserHelper $userHelper;
-	protected GroupHelper $groupHelper;
-	protected TalkHelper $talkHelper;
-	protected DeckHelper $deckHelper;
-	protected CircleHelper $circleHelper;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-	private IL10N $l10n;
+	private ?array $dataSources = null;
+	private static array $displayNameCache = [];
+	private array $dateTimeCache = [];
 
 	public function __construct(
-		IAppConfig       $appConfig,
-		IConfig          $config,
-		LoggerInterface  $logger,
-		ShareManager     $shareManager,
-		ShareMapper      $shareMapper,
-		IUserSession     $userSession,
-		UserHelper       $userHelper,
-		GroupHelper      $groupHelper,
-		TalkHelper       $talkHelper,
-		DeckHelper       $deckHelper,
-		CircleHelper     $circleHelper,
-		IRootFolder      $rootFolder,
-		IEventDispatcher $dispatcher,
-		IL10N $l10n
+		private readonly IAppConfig $appConfig,
+		private readonly IConfig $config,
+		private readonly LoggerInterface $logger,
+		private readonly ShareManager $shareManager,
+		private readonly ShareMapper $shareMapper,
+		private readonly IRootFolder $rootFolder,
+		private readonly IUserSession $userSession,
+		private readonly UserHelper $userHelper,
+		private readonly GroupHelper $groupHelper,
+		private readonly TalkHelper $talkHelper,
+		private readonly DeckHelper $deckHelper,
+		private readonly CircleHelper $circleHelper,
+		private readonly IEventDispatcher $dispatcher,
+		private readonly IL10N $l10n,
 	) {
-		$this->appConfig = $appConfig;
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->shareManager = $shareManager;
-		$this->shareMapper = $shareMapper;
-		$this->rootFolder = $rootFolder;
-		$this->userHelper = $userHelper;
-		$this->groupHelper = $groupHelper;
-		$this->talkHelper = $talkHelper;
-		$this->deckHelper = $deckHelper;
-		$this->circleHelper = $circleHelper;
-		$this->userSession = $userSession;
-		$this->dispatcher = $dispatcher;
-		$this->l10n = $l10n;
 	}
 
 	/**
 	 * get all shares
-	 *
-	 * @param $onlyNew
-	 * @return array
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
 	 */
-	public function read($onlyNew, $backgroundUserId = null) {
-		if ($backgroundUserId != null) {
-			$user = $backgroundUserId;
-		} else {
-			$user = $this->userSession->getUser()->getUID();
-		}
-
-		$userTimestamp = $this->config->getUserValue($user, 'sharereview', 'reviewTimestamp', 0);
+	public function read(bool $onlyNew, ?string $backgroundUserId = null): array {
+		$user = $backgroundUserId ?? $this->userSession->getUser()->getUID();
+		$userTimestamp = (int)$this->config->getUserValue($user, 'sharereview', 'reviewTimestamp', 0);
 		$showTalk = $this->config->getUserValue($user, 'sharereview', 'showTalk', 'true') !== 'false';
-		$formated = [];
 
-		$shares = $this->getFileShares($showTalk);
+		$fileShares = $this->getFileShares($showTalk);
 		$appShares = $this->getAppShares();
 
-		$shares = array_merge($shares, $appShares);
+		// Pre-warm display name cache for relevant shares only
+		$this->preloadDisplayNames(array_merge($fileShares, $appShares), $userTimestamp, $onlyNew);
 
-		foreach ($shares as $share) {
-			$dateTime = new \DateTime($share['time']);
+		$formated = [];
+		foreach (array_merge($fileShares, $appShares) as $share) {
+			if ($onlyNew && (int)($share['time'] ?? 0) <= $userTimestamp) {
+				continue;
+			}
 
-			if ($onlyNew && $dateTime->getTimestamp() <= $userTimestamp) continue;
 			$formatedShare = $this->formatShare($share);
-			if ($formatedShare !== []) $formated[] = $formatedShare;
+			if (!empty($formatedShare)) {
+				$formated[] = $formatedShare;
+			}
 		}
 
 		return $formated;
@@ -123,33 +84,25 @@ class ShareService {
 
 	/**
 	 * delete a share
-	 *
-	 * @param $shareId
-	 * @return bool
-	 * @throws ShareNotFound
 	 */
-	public function delete($shareId) {
-		$array = explode('_', $shareId);
-		$app = $array[0];
-		$shareString = rawurldecode($array[1]);
+	public function delete(string $shareId): bool {
+		[$app, $shareString] = explode('_', $shareId, 2);
+		$shareString = rawurldecode($shareString);
 
 		if ($app === 'files') {
 			$this->logger->info('deleting files share: ' . $shareString);
 			$share = $this->shareManager->getShareById($shareString);
 			return $this->shareManager->deleteShare($share);
-		} else {
-			$this->logger->info('deleting App share');
-			return $this->deleteAppShare($app, $shareString);
 		}
+
+		$this->logger->info('deleting App share');
+		return $this->deleteAppShare($app, $shareString);
 	}
 
 	/**
 	 * confirm current shares by setting the current timestamp
-	 * @param $timestamp
-	 * @return mixed
-	 * @throws PreConditionNotMetException
 	 */
-	public function confirm($timestamp) {
+	public function confirm(string $timestamp): string {
 		$user = $this->userSession->getUser();
 		$this->config->setUserValue($user->getUID(), 'sharereview', 'reviewTimestamp', $timestamp);
 		return $timestamp;
@@ -157,181 +110,176 @@ class ShareService {
 
 	/**
 	 * persist showTalk selection
-	 * @param bool $state
-	 * @return bool
 	 */
-	public function showTalk(bool $state) {
+	public function showTalk(bool $state): bool {
 		$user = $this->userSession->getUser();
-		$value = $state ? 'true' : 'false';
-		$this->config->setUserValue($user->getUID(), 'sharereview', 'showTalk', $value);
+		$this->config->setUserValue($user->getUID(), 'sharereview', 'showTalk', $state ? 'true' : 'false');
 		return $state;
 	}
 
 	/**
 	 * app can only be used when it is restricted to at least one group for security reasons
-	 *
-	 * @return bool
 	 */
-	public function isSecured() {
-		$enabled = $this->appConfig->getFilteredValues('sharereview')['enabled'];
-		if ($enabled !== 'yes') {
-			return true;
-		} else {
-			return false;
-		}
+	public function isSecured(): bool {
+		return $this->appConfig->getFilteredValues('sharereview')['enabled'] !== 'yes';
 	}
 
-	/**
-	 * format any share to the required format
-	 * @param $share
-	 * @return array
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 */
-	private function formatShare($share): array {
+	private function formatShare(array $share): array {
+		$type = (int)$share['type'];
+		$recipientId = $share['recipient'] ?? '';
 
-		if ($share['type'] === IShare::TYPE_GROUP) {
-			$share['recipient'] = $share['recipient'] != '' ? $this->groupHelper->getGroupDisplayName($share['recipient']) : '';
-		} elseif ($share['type'] === IShare::TYPE_ROOM) {
-			$share['recipient'] = $share['recipient'] != '' ? $this->talkHelper->getRoomDisplayName($share['recipient']) : '';
-		} elseif ($share['type'] === IShare::TYPE_DECK) {
-			$share['recipient'] = $share['recipient'] != '' ? $this->deckHelper->getDeckDisplayName($share['recipient']) : '';
-		} elseif ($share['type'] === IShare::TYPE_CIRCLE) {
-			$share['recipient'] = $share['recipient'] != '' ? $this->circleHelper->getCircleDisplayName($share['recipient']) : '';
-		} elseif ($share['type'] === IShare::TYPE_USER) {
-			$share['recipient'] = $share['recipient'] != '' ? $this->userHelper->getUserDisplayName($share['recipient']) : '';
-		}
+		$recipientDisplay = $recipientId ? $this->getCachedDisplayName($type, $recipientId) : '';
+		$initiatorDisplay = ($share['initiator'] ?? '') ? $this->getCachedDisplayName(IShare::TYPE_USER, $share['initiator']) : '';
 
-		$share['type'] = $share['type'] . ';' . $share['recipient'];
-		$share['initiator'] = $share['initiator'] != '' ? $this->userHelper->getUserDisplayName($share['initiator']) : '';
-		$password = isset($share['password']) && $share['password'] !== null && $share['password'] !== '' ? $share['password'] : '';
-		$expiration = isset($share['expiration']) && $share['expiration'] !== null && $share['expiration'] !== '' ? $share['expiration'] : '';
-		$share['permissions'] = $share['permissions'] . ';' . $password . ';' . $expiration;
-
-		// get the original app name if available - not the translated one
-		$app = $share['appId'] ?? $share['app'];
-		$share['action'] = $share['action'] !== '' ? $share['action'] : $share['id'];
-		$share['action'] = $app . '_' . $share['action'];
-		
-		// remap to the required structure to avoid issues with wrong app arrays
-		$data = [
+		return [
 			'app' => $share['app'],
 			'object' => $share['object'],
-			'initiator' => $share['initiator'],
-			'type' => $share['type'],
-			'permissions' => $share['permissions'],
+			'initiator' => $initiatorDisplay,
+			'type' => $type . ';' . $recipientDisplay,
+			'permissions' => $this->buildPermissions($share),
 			'time' => $share['time'],
-			'action' => $share['action'],
+			'action' => $this->buildAction($share),
 		];
-
-		return $data;
 	}
 
-	/**
-	 * get file shares
-	 * @return array
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 */
-	private function getFileShares(bool $showTalk = true) {
+	private function getCachedDisplayName(int $type, string $id): string {
+		$key = $type . ':' . $id;
+		return self::$displayNameCache[$key] ??= match($type) {
+			IShare::TYPE_GROUP => $this->groupHelper->getGroupDisplayName($id),
+			IShare::TYPE_ROOM => $this->talkHelper->getRoomDisplayName($id),
+			IShare::TYPE_DECK => $this->deckHelper->getDeckDisplayName($id),
+			IShare::TYPE_CIRCLE => $this->circleHelper->getCircleDisplayName($id),
+			IShare::TYPE_USER => $this->userHelper->getUserDisplayName($id),
+			IShare::TYPE_EMAIL => $id,
+			default => $id	// Fallback to raw ID
+		};
+	}
+
+	private function getFormattedTime(int $unixTime): string {
+		return $this->dateTimeCache[$unixTime] ??= (new \DateTime('@' . $unixTime))->format(\DATE_ATOM);
+	}
+
+	private function buildPermissions(array $share): string {
+		$password = ($share['password'] ?? '') !== '' ? $share['password'] : '';
+		$expiration = ($share['expiration'] ?? '') !== '' ? $share['expiration'] : '';
+		return $share['permissions'] . ';' . $password . ';' . $expiration;
+	}
+
+	private function buildAction(array $share): string {
+		$app = $share['appId'] ?? $share['app'] ?? 'files';
+		$action = $share['action'] ?: (string)$share['id'];
+		return $app . '_' . $action;
+	}
+
+	private function preloadDisplayNames(array $allShares, int $userTimestamp, bool $onlyNew): void {
+		$relevantShares = $onlyNew ? array_filter($allShares, fn($s) => (int)($s['time'] ?? 0) > $userTimestamp) : $allShares;
+
+		// Preload initiators (most common)
+		$userIds = array_unique(array_column($relevantShares, 'uid_initiator', 0) ?: []);
+		foreach ($userIds as $uid) {
+			if ($uid) {
+				$this->getCachedDisplayName(IShare::TYPE_USER, $uid);
+			}
+		}
+	}
+
+	private function getFileShares(bool $showTalk = true): array {
 		$shares = $this->shareMapper->findAll();
 		$formated = [];
 
+		$sharesByOwner = [];
 		foreach ($shares as $share) {
 			if (!$showTalk && (int)$share['share_type'] === IShare::TYPE_ROOM) {
 				continue;
 			}
-			$path = '';
+			$sharesByOwner[$share['uid_initiator']][] = $share;
+		}
 
-			// Retrieve the file object using the file_source
-			try {
-				$userFolder = $this->rootFolder->getUserFolder($share['uid_initiator']);
-				$file = $userFolder->getById($share['file_source']);
-				if (!empty($file)) {
-					$path = $file[0]->getPath() . ';' . $file[0]->getName();
+		foreach ($sharesByOwner as $uid => $ownerShares) {
+			if (!$this->userHelper->isValidOwner($uid)) {
+				foreach ($ownerShares as $share) {
+					$this->processShare($formated, $share, 'invalid share (*) ');
 				}
-			} catch (NotFoundException $e) {
-				$this->logger->error('File not found for file_source: ' . $share['file_source']);
-			} catch (NotPermittedException $e) {
-				$this->logger->error('Access not permitted for file_source: ' . $share['file_source']);
+				continue;
 			}
 
-			if (!$this->userHelper->isValidOwner($share['uid_initiator'])) {
-				$path = 'invalid share (*) ';
-			}
-			$recipient = $share['share_with'];
-
-			switch ((int)$share['share_type']) {
-				case IShare::TYPE_USER:
-				case IShare::TYPE_GROUP:
-				case IShare::TYPE_LINK:
-					$action = 'ocinternal:' . $share['id'];
-					if ((int)$share['share_type'] === IShare::TYPE_LINK) {
-						$recipient = $share['token'];
-					}
-					break;
-				case IShare::TYPE_EMAIL:
-					$action = 'ocMailShare:' . $share['id'];
-					break;
-				case IShare::TYPE_REMOTE:
-					$action = 'ocFederatedSharing:' . $share['id'];
-					break;
-				case IShare::TYPE_ROOM:
-					$action = 'ocRoomShare:' . $share['id'];
-					break;
-				case IShare::TYPE_CIRCLE:
-					$action = 'ocCircleShare:' . $share['id'];
-					break;
-				case IShare::TYPE_DECK:
-					$action = 'deck:' . $share['id'];
-					break;
+			try {
+				$userFolder = $this->rootFolder->getUserFolder($uid);
+			} catch (\Exception $e) {
+				$this->logger->error('Error accessing folder for ' . $uid . ': ' . $e->getMessage());
+				foreach ($ownerShares as $share) {
+					$this->processShare($formated, $share, 'invalid share (*) ');
+				}
+				continue;
 			}
 
-			$data = [
-				'id' => $share['id'],
-				'app' => $this->l10n->t('Files'),
-				'appId' => 'files',
-				'object' => $path,
-				'initiator' => $share['uid_initiator'],
-				'type' => $share['share_type'],
-				'recipient' => $recipient,
-				'permissions' => $share['permissions'],
-				'password' => isset($share['password']) && $share['password'] !== '',
-				'expiration' => $share['expiration'],
-				'time' => (new \DateTime('@' . $share['stime']))->format(\DATE_ATOM),
-				'action' => rawurlencode($action),
-			];
+			$filePaths = [];
+			$fileIds = array_unique(array_column($ownerShares, 'file_source'));
+			foreach ($fileIds as $fileId) {
+				try {
+					$files = $userFolder->getById($fileId);
+					$filePaths[$fileId] = !empty($files) ? $files[0]->getPath() . ';' . $files[0]->getName() : '';
+				} catch (\Exception $e) {
+					$this->logger->error('File error ' . $fileId . ': ' . $e->getMessage());
+					$filePaths[$fileId] = '';
+				}
+			}
 
-			$formated[] = $data;
+			foreach ($ownerShares as $share) {
+				$path = $filePaths[$share['file_source']] ?? '';
+				$this->processShare($formated, $share, $path);
+			}
 		}
+
 		return $formated;
 	}
 
-	/**
-	 * get shares from other registered apps
-	 * @return array
-	 */
-	private function getAppShares() {
-		$apps = [];
+	private function processShare(array &$formated, array $share, string $path): void {
+		$recipient = $share['share_with'];
+		$action = match ((int)$share['share_type']) {
+			IShare::TYPE_EMAIL => 'ocMailShare:' . $share['id'],
+			IShare::TYPE_REMOTE => 'ocFederatedSharing:' . $share['id'],
+			IShare::TYPE_ROOM => 'ocRoomShare:' . $share['id'],
+			IShare::TYPE_CIRCLE => 'ocCircleShare:' . $share['id'],
+			IShare::TYPE_DECK => 'deck:' . $share['id'],
+			default => 'ocinternal:' . $share['id']
+		};
+
+		if ((int)$share['share_type'] === IShare::TYPE_LINK) {
+			$recipient = $share['token'];
+		}
+
+		$formated[] = [
+			'id' => $share['id'],
+			'app' => $this->l10n->t('Files'),
+			'appId' => 'files',
+			'object' => $path,
+			'initiator' => $share['uid_initiator'],
+			'type' => $share['share_type'],
+			'recipient' => $recipient,
+			'permissions' => $share['permissions'],
+			'password' => ($share['password'] ?? '') !== '',
+			'expiration' => $share['expiration'],
+			'time' => $this->getFormattedTime((int)$share['stime']),
+			'action' => rawurlencode($action),
+		];
+	}
+
+	private function getAppShares(): array {
 		$formated = [];
-		foreach ($this->getRegisteredSources() as $key => $app) {
-			$apps[$key] = $app->getShares();
-		}
-
-		foreach ($apps as $key => $shares) { // Include $key here
-			foreach ($shares as $share) {
-				$share['app'] = $key;
-				$formated[] = $share;
+		foreach ($this->getRegisteredSources() as $appId => $app) {
+			foreach ($app->getShares() as $share) {
+				$formated[] = $share + ['app' => $appId];
 			}
 		}
 		return $formated;
 	}
 
-	/**
-	 * get the list of all registered apps
-	 * @return array
-	 */
-	private function getRegisteredSources() {
+	private function getRegisteredSources(): array {
+		if ($this->dataSources !== null) {
+			return $this->dataSources;
+		}
+
 		$dataSources = [];
 		$event = new SourceEvent();
 		$this->dispatcher->dispatchTyped($event);
@@ -339,10 +287,8 @@ class ShareService {
 		foreach ($event->getSources() as $class) {
 			try {
 				$uniqueId = \OC::$server->get($class)->getName();
-
 				if (isset($dataSources[$uniqueId])) {
-					$this->logger->error(new \InvalidArgumentException('Data source with the same ID already registered: ' . \OC::$server->get($class)
-																																		 ->getName()));
+					$this->logger->error('Data source with the same ID already registered: ' . $uniqueId);
 					continue;
 				}
 				$dataSources[$uniqueId] = \OC::$server->get($class);
@@ -351,23 +297,16 @@ class ShareService {
 				$this->logger->error($e->getMessage());
 			}
 		}
-		return $dataSources;
+		return $this->dataSources = $dataSources;
 	}
 
-	/**
-	 * delete share from other registered app
-	 * @param $app
-	 * @param $shareId
-	 * @return false
-	 */
-	private function deleteAppShare($app, $shareId) {
+	private function deleteAppShare(string $app, string $shareId): bool {
 		$registeredSources = $this->getRegisteredSources();
 		if (isset($registeredSources[$app])) {
 			return $registeredSources[$app]->deleteShare($shareId);
-		} else {
-			// Handle the case where the key does not exist
-			$this->logger->info('Can not delete app share: ' . $app);
-			return false;
 		}
+
+		$this->logger->info('Can not delete app share: ' . $app);
+		return false;
 	}
 }
