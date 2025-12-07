@@ -49,6 +49,7 @@ OC.L10N.register(
     "The app must be restricted to at least one specific user group in the app store. This prevents accidental exposure of the shared content to all users." : "بۇ ئەپ چوقۇم ئەپ دۇكىنىدىكى كەم دېگەندە بىر ئالاھىدە ئىشلەتكۈچى توپى بىلەنلا چەكلىنىشى كېرەك. بۇ بارلىق ئىشلەتكۈچىلەرگە ئورتاق مەزمۇننىڭ تاسادىپىي ئاشكارىلىنىپ كېتىشىنىڭ ئالدىنى ئالىدۇ.",
     "Click here" : "بۇ يەرنى چېكىڭ",
     "PDF" : "PDF",
+    "Schedule" : "ئورۇنلاشتۇر",
     "None" : "يوق",
     "Daily" : "كۈندىلىك",
     "Weekly" : "ھەپتىلىك",
