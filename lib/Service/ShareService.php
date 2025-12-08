@@ -91,8 +91,19 @@ class ShareService {
 
 		if ($app === 'files') {
 			$this->logger->info('deleting files share: ' . $shareString);
-			$share = $this->shareManager->getShareById($shareString);
-			return $this->shareManager->deleteShare($share);
+			try {
+				$share = $this->shareManager->getShareById($shareString);
+				return $this->shareManager->deleteShare($share);
+			} catch (ShareNotFound $e) {
+				// Share already gone — log at info level and return false (nothing deleted)
+				$this->logger->debug('Files share not found: ' . $shareString . ' - ' . $e->getMessage());
+				return false;
+			} catch (\Exception $e) {
+				// Unexpected error — log full details and return false
+				$this->logger->debug('Error deleting files share ' . $shareString . ': ' . $e->getMessage());
+				$this->logger->debug('File might have been deleted anyway.');
+				return false;
+			}
 		}
 
 		$this->logger->info('deleting App share');
