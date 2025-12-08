@@ -1,5 +1,10 @@
 # Changelog
 
+### 2.1.0 - 2025-12-08
+### Changed
+- Implement error handling for deleting shares when the user is not existing anymore #49
+- perf: cache user folders, process files by owner #48 @[solracsf](https://github.com/solracsf)
+
 ## 2.0.1 - 2025-12-05
 ### Fixed
 - Refactor permissions assignment in ShareService #43
