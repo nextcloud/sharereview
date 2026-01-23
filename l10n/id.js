@@ -14,6 +14,7 @@ OC.L10N.register(
     "App" : "Apl",
     "Type" : "tipe",
     "Time" : "Waktu",
+    "Action" : "Tindakan",
     "Select all" : "Pilih semua",
     "edit" : "ubah",
     "Password protected" : "Kata sandi dilindungi",
