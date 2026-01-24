@@ -13,6 +13,7 @@ OC.L10N.register(
     "Showing 0 to 0 of 0 entries" : "Menampilkan 0 hingga 0 dari 0 entri",
     "App" : "Apl",
     "Type" : "tipe",
+    "Permissions" : "Izin",
     "Time" : "Waktu",
     "Action" : "Tindakan",
     "Select all" : "Pilih semua",
