@@ -31,6 +31,7 @@ OC.L10N.register(
     "Time" : "Hora",
     "Action" : "Acción",
     "Select all" : "Seleccionar todo",
+    "more" : "más",
     "edit" : "editar",
     "Password protected" : "Protegido con contraseña",
     "Deck" : "Deck",
