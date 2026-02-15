@@ -20,6 +20,7 @@ OC.L10N.register(
     "Time" : "Čas",
     "Action" : "Akcia",
     "Select all" : "Vybrať všetko",
+    "more" : "viac",
     "edit" : "upraviť",
     "Password protected" : "Chránené heslom",
     "Deck" : "Nástenka",
