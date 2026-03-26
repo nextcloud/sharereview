@@ -26,6 +26,7 @@ OC.L10N.register(
     "E-mail" : "El. paštas",
     "Link" : "Nuoroda",
     "User" : "Naudotojas",
+    "Group" : "Grupė",
     "Other" : "Kita",
     "Files" : "Failai",
     "None" : "Nėra",
