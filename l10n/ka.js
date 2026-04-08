@@ -20,6 +20,7 @@ OC.L10N.register(
     "User" : "User",
     "Group" : "Group",
     "Other" : "Other",
+    "Files" : "ფაილები",
     "None" : "None",
     "Daily" : "დღიურად",
     "Weekly" : "კვირეულად",

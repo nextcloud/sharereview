@@ -17,6 +17,7 @@ OC.L10N.register(
     "edit" : "editar",
     "Password protected" : "Protegido com Palavra-passe",
     "Deck" : "Quadro",
+    "Team" : "Grupo",
     "Federation" : "Federação",
     "E-mail" : "Correio Eletrónico",
     "Link" : "Hiperligação",
