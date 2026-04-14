@@ -6,7 +6,7 @@ OC.L10N.register(
     "The share will be deleted!" : "Viešinys bus ištrintas!",
     "All Shares" : "Visi viešiniai",
     "New Shares" : "Nauji viešiniai",
-    "Select folder" : "Pasirinkite aplanką",
+    "Select folder" : "Pasirinkti aplanką",
     "Timestamp saved" : "Laiko žyma įrašyta",
     "Timestamp deleted" : "Laiko žyma ištrinta",
     "Settings saved" : "Nustatymai įrašyti",
