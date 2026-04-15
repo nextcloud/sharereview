@@ -22,6 +22,7 @@ OC.L10N.register(
     "edit" : "redaguoti",
     "Password protected" : "Apsaugota slaptažodžiu",
     "Deck" : "Darbai",
+    "Talk room" : "Pokalbių kambarys",
     "Team" : "Komanda",
     "Federation" : "Federacija",
     "E-mail" : "El. paštas",
