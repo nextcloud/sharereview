@@ -31,6 +31,7 @@ OC.L10N.register(
     "Group" : "Grupė",
     "Other" : "Kita",
     "Files" : "Failai",
+    "Schedule" : "Tvarkaraštis",
     "None" : "Nėra",
     "Daily" : "Kas dieną",
     "Weekly" : "Kas savaitę",
