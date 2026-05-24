@@ -7,6 +7,7 @@ OC.L10N.register(
     "All Shares" : "Visi bendrinimai",
     "New Shares" : "Nauji bendrinimai",
     "Select folder" : "Pasirinkti aplanką",
+    "Request could not be processed" : "Užklausos apdoroti nepavyko",
     "Timestamp saved" : "Laiko žyma įrašyta",
     "Timestamp deleted" : "Laiko žyma ištrinta",
     "Settings saved" : "Nustatymai įrašyti",
