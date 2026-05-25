@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2024 Marcel Scherello
+# SPDX-FileCopyrightText: 2024-2026 Marcel Scherello
 # SPDX-License-Identifier: AGPL-3.0-or-later
 version = 1
 SPDX-PackageName = "sharereview"
@@ -14,13 +14,13 @@ SPDX-License-Identifier = "AGPL-3.0-or-later"
 [[annotations]]
 path = [".**", "**.md", "**.json", "**.code-workspace", "tests/**"]
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2024 Marcel Scherello"
+SPDX-FileCopyrightText = "2024-2026 Marcel Scherello"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
 path = ["img/app.svg", "img/app-dark.svg", "screenshots/**"]
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2024 Marcel Scherello"
+SPDX-FileCopyrightText = "2024-2026 Marcel Scherello"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
@@ -32,7 +32,7 @@ SPDX-License-Identifier = "Apache-2.0"
 [[annotations]]
 path = "appinfo/info.xml"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2024 Marcel Scherello"
+SPDX-FileCopyrightText = "2024-2026 Marcel Scherello"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
