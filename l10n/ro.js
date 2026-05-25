@@ -21,6 +21,7 @@ OC.L10N.register(
     "User" : "Utilizator",
     "Group" : "Grup",
     "Other" : "Altele",
+    "Reshare" : "Redistribuiți",
     "None" : "Niciuna",
     "Daily" : "Zilnic",
     "Weekly" : "Săptămânal",

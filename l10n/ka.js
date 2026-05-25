@@ -20,6 +20,7 @@ OC.L10N.register(
     "User" : "User",
     "Group" : "Group",
     "Other" : "Other",
+    "Reshare" : "Reshare",
     "Files" : "ფაილები",
     "None" : "None",
     "Daily" : "დღიურად",

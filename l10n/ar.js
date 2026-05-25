@@ -39,6 +39,7 @@ OC.L10N.register(
     "User" : "المُستخدِم",
     "Group" : "المجموعة",
     "Other" : "آخَر",
+    "Reshare" : "إعادة المشاركة",
     "Files" : "الملفّات",
     "Share Review" : "معاينة المشاركة",
     "Review and audit all shares" : "مراجعة و تدقيق جميع المشاركات  ",

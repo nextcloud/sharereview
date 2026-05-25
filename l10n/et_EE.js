@@ -47,6 +47,7 @@ OC.L10N.register(
     "User" : "Kasutaja",
     "Group" : "Grupp",
     "Other" : "Muu",
+    "Reshare" : "Jaga edasi",
     "Files" : "Failid",
     "Share Review" : "Ülevaade jagamistest",
     "Review and audit all shares" : "Jagamiste ülevaatamine ja auditeerimine",

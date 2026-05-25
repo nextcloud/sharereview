@@ -47,6 +47,7 @@ OC.L10N.register(
     "User" : "Uživatel",
     "Group" : "Skupina",
     "Other" : "Ostatní",
+    "Reshare" : "Sdílet dál dalším",
     "Files" : "Soubory",
     "Share Review" : "Revidovat sdílení",
     "Review and audit all shares" : "Zrevidovat a auditovat veškerá sdílení",

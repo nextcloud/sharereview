@@ -27,6 +27,7 @@ OC.L10N.register(
     "User" : "@string/user_icon",
     "Group" : "Grupa",
     "Other" : "Drugo",
+    "Reshare" : "Dijeli ponovno",
     "Files" : "Datoteke",
     "PDF" : "PDF",
     "None" : "Nema",

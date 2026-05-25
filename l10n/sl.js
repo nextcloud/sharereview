@@ -30,6 +30,7 @@ OC.L10N.register(
     "User" : "Uporabnik",
     "Group" : "Skupina",
     "Other" : "Drugo",
+    "Reshare" : "Nadaljnja souporaba",
     "Files" : "Datoteke",
     "PDF" : "PDF",
     "None" : "Brez",

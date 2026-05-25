@@ -30,6 +30,7 @@ OC.L10N.register(
     "User" : "Потребител",
     "Group" : "Група",
     "Other" : "Други",
+    "Reshare" : "Повторно споделяне",
     "Files" : "Файлове",
     "PDF" : "PDF",
     "None" : "Няма",

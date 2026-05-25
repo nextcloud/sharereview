@@ -43,6 +43,7 @@ OC.L10N.register(
     "User" : "Usuario",
     "Group" : "Grupo",
     "Other" : "Otro",
+    "Reshare" : "Volver a compartir",
     "Files" : "Archivos",
     "Share Review" : "Revisar recurso compartido",
     "Review and audit all shares" : "Revisar y auditar todos los recursos compartidos",

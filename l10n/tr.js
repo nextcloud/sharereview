@@ -47,6 +47,7 @@ OC.L10N.register(
     "User" : "Kullanıcı",
     "Group" : "Grup",
     "Other" : "Diğer",
+    "Reshare" : "Yeniden paylaş",
     "Files" : "Dosyalar",
     "Share Review" : "İncelemeyi paylaş",
     "Review and audit all shares" : "Tüm paylaşımları incele ve denetle",

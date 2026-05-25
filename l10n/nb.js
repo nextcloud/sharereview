@@ -38,6 +38,7 @@ OC.L10N.register(
     "User" : "Bruker",
     "Group" : "Gruppe",
     "Other" : "Annen",
+    "Reshare" : "Videredele",
     "Files" : "Filer",
     "Share Review" : "Gjennomgå delt ressurs",
     "Review and audit all shares" : "Gjennomgå og revider alle delte ressurser",

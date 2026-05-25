@@ -47,6 +47,7 @@ OC.L10N.register(
     "User" : "Benutzer",
     "Group" : "Gruppe",
     "Other" : "Andere",
+    "Reshare" : "Weiterteilen",
     "Files" : "Dateien",
     "Share Review" : "Freigaben überprüfen",
     "Review and audit all shares" : "Alle Freigaben überprüfen und auditieren",

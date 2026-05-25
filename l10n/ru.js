@@ -35,6 +35,7 @@ OC.L10N.register(
     "User" : "Пользователь",
     "Group" : "Группа",
     "Other" : "Другое",
+    "Reshare" : "Публиковать",
     "Files" : "Файлы",
     "Share Review" : "Поделитесь отзывом",
     "Review and audit all shares" : "Просматривайте и проводите аудит всех общих ресурсов",

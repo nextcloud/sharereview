@@ -25,6 +25,7 @@ OC.L10N.register(
     "User" : "Notandi",
     "Group" : "Hópur",
     "Other" : "Annað",
+    "Reshare" : "Endurdeila",
     "Files" : "Skráaforrit",
     "PDF" : "PDF",
     "None" : "Ekkert",

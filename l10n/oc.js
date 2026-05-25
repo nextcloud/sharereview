@@ -14,6 +14,7 @@ OC.L10N.register(
     "Link" : "Ligam",
     "User" : "Utilizator",
     "Group" : "Grop",
+    "Reshare" : "Repartir",
     "PDF" : "PDF",
     "None" : "Cap",
     "Daily" : "Quotidian",

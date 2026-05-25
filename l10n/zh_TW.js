@@ -47,6 +47,7 @@ OC.L10N.register(
     "User" : "使用者",
     "Group" : "群組",
     "Other" : "其他",
+    "Reshare" : "轉發分享",
     "Files" : "檔案",
     "Share Review" : "分享審閱",
     "Review and audit all shares" : "審閱並稽核所有分享",

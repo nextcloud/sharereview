@@ -24,6 +24,7 @@ OC.L10N.register(
     "User" : "Người dùng",
     "Group" : "Nhóm",
     "Other" : "Khác",
+    "Reshare" : "Chia sẻ lại",
     "Files" : "Tệp Tin",
     "None" : "Không có",
     "Daily" : "Hằng ngày",

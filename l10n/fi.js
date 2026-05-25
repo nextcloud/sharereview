@@ -27,6 +27,7 @@ OC.L10N.register(
     "User" : "Käyttäjä",
     "Group" : "Ryhmä",
     "Other" : "Muu",
+    "Reshare" : "Jaa edelleen",
     "Files" : "Tiedostot",
     "PDF" : "PDF",
     "None" : "Ei mitään",

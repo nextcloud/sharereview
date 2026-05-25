@@ -40,6 +40,7 @@ OC.L10N.register(
     "User" : "Użytkownik",
     "Group" : "Grupa",
     "Other" : "Inne",
+    "Reshare" : "Udostępnianie innym",
     "Files" : "Pliki",
     "Share Review" : "Udostępnij recenzję",
     "Review and audit all shares" : "Przegląd i audyt wszystkich udostępnień",

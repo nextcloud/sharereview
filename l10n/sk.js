@@ -31,6 +31,7 @@ OC.L10N.register(
     "User" : "Používateľ",
     "Group" : "Skupina",
     "Other" : "Iné",
+    "Reshare" : "Zdieľať ďalej",
     "Files" : "Súbory",
     "PDF" : "PDF",
     "Schedule" : "Program",

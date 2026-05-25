@@ -24,6 +24,7 @@ OC.L10N.register(
     "User" : "משתמש",
     "Group" : "קבוצה",
     "Other" : "אחר",
+    "Reshare" : "שיתוף מחדש",
     "Files" : "קבצים",
     "PDF" : "PDF",
     "None" : "ללא",

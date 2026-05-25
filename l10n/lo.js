@@ -30,6 +30,7 @@ OC.L10N.register(
     "User" : "ຜູ້ໃຊ້",
     "Group" : "Group",
     "Other" : "ອື່ນໆ",
+    "Reshare" : "Reshare",
     "Files" : "ຟາຍ",
     "PDF" : "PDF",
     "Schedule" : "Schedule",

@@ -43,6 +43,7 @@ OC.L10N.register(
     "User" : "Корисник",
     "Group" : "Група",
     "Other" : "Остали",
+    "Reshare" : "Дели даље",
     "Files" : "Фајлови",
     "Share Review" : "Дели преглед",
     "Review and audit all shares" : "Прегледајте и процените сва дељења",

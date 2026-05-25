@@ -47,6 +47,7 @@ OC.L10N.register(
     "User" : "Användare",
     "Group" : "Grupp",
     "Other" : "Annat",
+    "Reshare" : "Dela vidare",
     "Files" : "Filer",
     "Share Review" : "Granska delningar",
     "Review and audit all shares" : "Granska och övervaka alla delningar",

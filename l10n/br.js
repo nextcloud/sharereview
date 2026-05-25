@@ -12,6 +12,7 @@ OC.L10N.register(
     "Federation" : "Kevread",
     "E-mail" : "Postel",
     "User" : "Implijer",
+    "Reshare" : "Adrannañ",
     "PDF" : "PDF",
     "None" : "Hini ebet",
     "Daily" : "Pemdeziek",

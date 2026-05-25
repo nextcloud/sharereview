@@ -47,6 +47,7 @@ OC.L10N.register(
     "User" : "Pengguna",
     "Group" : "Grup",
     "Other" : "Lainnya",
+    "Reshare" : "Bagikan ulang",
     "Files" : "File",
     "Share Review" : "Tinjauan Bagikan",
     "Review and audit all shares" : "Tinjau dan audit semua bagikan",

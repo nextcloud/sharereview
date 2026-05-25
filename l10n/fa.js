@@ -30,6 +30,7 @@ OC.L10N.register(
     "User" : "کاربر",
     "Group" : "گروه",
     "Other" : "دیگر",
+    "Reshare" : "بازهم‌رسانی",
     "Files" : "پرونده‌ها",
     "PDF" : "PDF",
     "None" : "هیچ‌کدام",

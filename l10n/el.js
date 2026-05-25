@@ -30,6 +30,7 @@ OC.L10N.register(
     "User" : "Χρήστης",
     "Group" : "Ομάδα",
     "Other" : "Άλλο",
+    "Reshare" : "Επαναδιαμοιρασμός",
     "Files" : "Αρχεία",
     "PDF" : "PDF",
     "None" : "Καμία",

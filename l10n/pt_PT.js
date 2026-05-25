@@ -24,6 +24,7 @@ OC.L10N.register(
     "User" : "Utilizador",
     "Group" : "Grupo",
     "Other" : "Outro",
+    "Reshare" : "Partilhar novamente",
     "Files" : "Ficheiros",
     "PDF" : "PDF",
     "None" : "Nenhum",

@@ -30,6 +30,7 @@ OC.L10N.register(
     "User" : "Erabiltzailea",
     "Group" : "Taldea",
     "Other" : "Besteak",
+    "Reshare" : "Birpartekatu",
     "Files" : "Fitxategiak",
     "PDF" : "PDF",
     "None" : "Bat ere ez",

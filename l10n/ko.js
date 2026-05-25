@@ -47,6 +47,7 @@ OC.L10N.register(
     "User" : "사용자",
     "Group" : "구룹",
     "Other" : "기타",
+    "Reshare" : "재공유",
     "Files" : "파일",
     "Share Review" : "공유 검토",
     "Review and audit all shares" : "모든 공유를 검토하고 감사하기",

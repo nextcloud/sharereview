@@ -47,6 +47,7 @@ OC.L10N.register(
     "User" : "ئىشلەتكۈچى",
     "Group" : "گۇرۇپپا",
     "Other" : "باشقىلىرى",
+    "Reshare" : "قايتا قۇرۇش",
     "Files" : "ھۆججەتلەر",
     "Share Review" : "ھەمبەھىرلىنىش",
     "Review and audit all shares" : "بارلىق پايلارنى تەكشۈرۈش ۋە ئىقتىسادىي تەپتىش قىلىش",

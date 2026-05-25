@@ -26,6 +26,7 @@ OC.L10N.register(
     "User" : "Utente",
     "Group" : "Grupu",
     "Other" : "Àteru",
+    "Reshare" : "Torra a cumpartzire",
     "Files" : "Archìvios",
     "PDF" : "PDF",
     "None" : "Perunu",

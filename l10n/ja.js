@@ -38,6 +38,7 @@ OC.L10N.register(
     "User" : "ユーザー",
     "Group" : "グループ",
     "Other" : "その他",
+    "Reshare" : "再共有",
     "Files" : "ファイル",
     "Share Review" : "共有レビュー",
     "No share found" : "共有が見つかりません",

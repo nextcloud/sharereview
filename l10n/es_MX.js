@@ -30,6 +30,7 @@ OC.L10N.register(
     "User" : "Usuario",
     "Group" : "Grupo",
     "Other" : "Otro",
+    "Reshare" : "Volver a compartir",
     "Files" : "Archivo",
     "None" : "Ninguno",
     "Daily" : "Diario",

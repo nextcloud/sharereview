@@ -29,6 +29,7 @@ OC.L10N.register(
     "User" : "Felhasználó",
     "Group" : "Csoport",
     "Other" : "Egyebek",
+    "Reshare" : "Továbbosztás",
     "Files" : "Fájlok",
     "PDF" : "PDF",
     "Schedule" : "Ütemterv",

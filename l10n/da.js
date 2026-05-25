@@ -33,6 +33,7 @@ OC.L10N.register(
     "User" : "Bruger",
     "Group" : "Gruppe",
     "Other" : "Andet",
+    "Reshare" : "Videredel",
     "Files" : "Filer",
     "Share Review" : "Del anmeldelse",
     "No share found" : "Ingen delinger fundet",

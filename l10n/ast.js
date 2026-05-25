@@ -22,6 +22,7 @@ OC.L10N.register(
     "Link" : "Enllaz",
     "User" : "Usuariu",
     "Group" : "Grupu",
+    "Reshare" : "Volver compartir",
     "Files" : "Ficheros",
     "PDF" : "PDF",
     "None" : "Nada",

@@ -31,6 +31,7 @@ OC.L10N.register(
     "User" : "Utente",
     "Group" : "Gruppo",
     "Other" : "Altro",
+    "Reshare" : "Ri-condividi",
     "Files" : "File",
     "PDF" : "PDF",
     "Schedule" : "Programma",

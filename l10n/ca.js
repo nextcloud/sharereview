@@ -30,6 +30,7 @@ OC.L10N.register(
     "User" : "Usuari",
     "Group" : "Grup",
     "Other" : "Altres",
+    "Reshare" : "Tornar a compartir",
     "Files" : "Fitxers",
     "PDF" : "PDF",
     "None" : "Només una vegada",

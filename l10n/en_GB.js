@@ -47,6 +47,7 @@ OC.L10N.register(
     "User" : "User",
     "Group" : "Group",
     "Other" : "Other",
+    "Reshare" : "Reshare",
     "Files" : "Files",
     "Share Review" : "Share Review",
     "Review and audit all shares" : "Review and audit all shares",

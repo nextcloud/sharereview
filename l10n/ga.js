@@ -47,6 +47,7 @@ OC.L10N.register(
     "User" : "Úsáideoir",
     "Group" : "Grúpa",
     "Other" : "Eile",
+    "Reshare" : "Roinn arís",
     "Files" : "Comhaid",
     "Share Review" : "Léirmheas Comhroinn",
     "Review and audit all shares" : "Athbhreithniú agus iniúchadh a dhéanamh ar na scaireanna go léir",

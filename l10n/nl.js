@@ -47,6 +47,7 @@ OC.L10N.register(
     "User" : "Gebruiker",
     "Group" : "Groep",
     "Other" : "Andere",
+    "Reshare" : "Doordelen",
     "Files" : "Bestanden",
     "Share Review" : "Share controle",
     "Review and audit all shares" : "Analyseer en controleer alle shares",
