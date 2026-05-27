@@ -45,6 +45,7 @@ OC.L10N.register(
     "Share Review" : "Udostępnij recenzję",
     "Review and audit all shares" : "Przegląd i audyt wszystkich udostępnień",
     "(*) indicates incorrect data. Share should be removed after evaluation." : "(*) oznacza nieprawidłowe dane. Udostępnienie powinno zostać usunięte po ocenie.",
+    "Delete selected" : "Usuń wybrane",
     "Pause reload after deletion" : "Wstrzymaj ponowne ładowanie po usunięciu",
     "No share found" : "Nie znaleziono udostępnienia",
     "The app must be restricted to at least one specific user group in the app store. This prevents accidental exposure of the shared content to all users." : "Aplikacja musi być ograniczona do co najmniej jednej określonej grupy użytkowników w sklepie z aplikacjami. Zapobiega to przypadkowemu udostępnieniu udostępnionej zawartości wszystkim użytkownikom.",
