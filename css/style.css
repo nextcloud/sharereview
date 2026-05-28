@@ -87,13 +87,13 @@
 
 .icon-sharereview-password {
     background-image: url(../img/password.svg);
-    /*filter: var(--background-invert-if-dark);*/
+    filter: var(--background-invert-if-dark);
     background-size: 16px;
 }
 
 .icon-sharereview-calendar {
     background-image: url(../img/calendar.svg);
-    /*filter: var(--background-invert-if-dark);*/
+    filter: var(--background-invert-if-dark);
     background-size: 16px;
 }
 
