@@ -28,6 +28,7 @@ OC.L10N.register(
     "Other" : "Cits",
     "Files" : "Datnes",
     "Delete selected" : "Izdzēst atlasītās",
+    "Folder owner" : "Mapes īpašnieks",
     "None" : "Nekas",
     "Daily" : "Katru dienu",
     "Weekly" : "Katru nedēļu",

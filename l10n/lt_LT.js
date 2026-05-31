@@ -32,7 +32,7 @@ OC.L10N.register(
     "Federation" : "Federacija",
     "E-mail" : "El. paštas",
     "Link" : "Nuoroda",
-    "User" : "Naudotojas",
+    "User" : "Vartotojas",
     "Group" : "Grupė",
     "Other" : "Kita",
     "Reshare" : "Pakartotinai bendrinti",
