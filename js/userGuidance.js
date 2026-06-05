@@ -10,6 +10,8 @@
 /** global: OC */
 'use strict';
 
+var APP_ID = 'sharereview';
+
  /* @namespace OCA.ShareReview.Notification
  */
 OCA.ShareReview.Notification = {
@@ -25,7 +27,7 @@ OCA.ShareReview.Notification = {
             + '<div id="shareReviewDialogContent">'
             + '</div>'
             + '<br><div class="shareReviewDialogButtonrow">'
-            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t('shareReview', 'OK') + '</a>'
+            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t(APP_ID, 'OK') + '</a>'
             + '</div></div>'
         );
         document.getElementById('shareReviewDialogHeader').textContent = header;
@@ -45,8 +47,8 @@ OCA.ShareReview.Notification = {
             + '<div style="text-align:center; padding-top:100px" class="get-metadata icon-loading"></div>'
             + '</div>'
             + '<br><div class="shareReviewDialogButtonrow">'
-            + '<a class="button" id="shareReviewDialogBtnCancel">' + t('sharereview', 'Cancel') + '</a>'
-            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t('sharereview', 'OK') + '</a>'
+            + '<a class="button" id="shareReviewDialogBtnCancel">' + t(APP_ID, 'Cancel') + '</a>'
+            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t(APP_ID, 'OK') + '</a>'
             + '</div></div>'
         );
         document.getElementById('shareReviewDialogHeader').textContent = header;
@@ -90,8 +92,8 @@ OCA.ShareReview.Notification = {
             + '<div style="text-align:center; padding-top:100px" class="get-metadata icon-loading"></div>'
             + '</div>'
             + '<br><div class="shareReviewDialogButtonrow">'
-            + '<a class="button" id="shareReviewDialogBtnCancel">' + t('sharereview', 'Cancel') + '</a>'
-            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t('sharereview', 'OK') + '</a>'
+            + '<a class="button" id="shareReviewDialogBtnCancel">' + t(APP_ID, 'Cancel') + '</a>'
+            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t(APP_ID, 'OK') + '</a>'
             + '</div></div>'
         );
 

@@ -11,6 +11,8 @@
 
 'use strict';
 
+var APP_ID = 'sharereview';
+
 OCA.ShareReview = Object.assign({}, OCA.ShareReview, {
     initialDocumentTitle: null,
     currentReportData: {},
@@ -29,8 +31,8 @@ OCA.ShareReview.UI = {
     handleDeleteClicked: function (evt) {
         let shareId = evt.target.id;
         OCA.ShareReview.Notification.confirm(
-            t('sharereview', 'Delete'),
-            t('sharereview', 'Are you sure?') + ' ' + t('sharereview', 'The share will be deleted!'),
+            t(APP_ID, 'Delete'),
+            t(APP_ID, 'Are you sure?') + ' ' + t(APP_ID, 'The share will be deleted!'),
             function () {
                 OCA.ShareReview.Backend.delete(shareId);
             }
@@ -66,8 +68,8 @@ OCA.ShareReview.UI = {
         if (checkboxes.length === 0) return;
         let ids = Array.from(checkboxes).map(cb => cb.value);
         OCA.ShareReview.Notification.confirm(
-            t('sharereview', 'Delete'),
-            t('sharereview', 'Are you sure?') + ' ' + t('sharereview', 'The share will be deleted!'),
+            t(APP_ID, 'Delete'),
+            t(APP_ID, 'Are you sure?') + ' ' + t(APP_ID, 'The share will be deleted!'),
             function () {
                 OCA.ShareReview.Backend.deleteMultiple(ids);
             }
@@ -97,28 +99,28 @@ OCA.ShareReview.Navigation = {
         let navigations = [
             {
                 id: 'navAllShares',
-                name: t('sharereview', 'All Shares'),
+                name: t(APP_ID, 'All Shares'),
                 event: OCA.ShareReview.Navigation.handleAllNavigation,
                 style: 'icon-sharereview-shares',
                 pinned: false
             },
             {
                 id: 'navNewShares',
-                name: t('sharereview', 'New Shares'),
+                name: t(APP_ID, 'New Shares'),
                 event: OCA.ShareReview.Navigation.handleNewSharesNavigation,
                 style: 'icon-sharereview-new',
                 pinned: false
             },
             {
                 id: 'navConfirm',
-                name: t('sharereview', 'Confirm reviewed'),
+                name: t(APP_ID, 'Confirm reviewed'),
                 event: OCA.ShareReview.Navigation.handleConfirmNavigation,
                 style: 'icon-sharereview-check',
                 pinned: false
             },
             {
                 id: 'navReset',
-                name: t('sharereview', 'Reset time'),
+                name: t(APP_ID, 'Reset time'),
                 event: OCA.ShareReview.Navigation.handleConfirmResetNavigation,
                 style: 'icon-sharereview-reset',
                 pinned: false
@@ -141,7 +143,7 @@ OCA.ShareReview.Navigation = {
         container.appendChild(spacer);
         container.appendChild(OCA.ShareReview.Navigation.buildNavigationRow({
             id: 'navExport',
-            name: t('sharereview', 'Export report'),
+            name: t(APP_ID, 'Export report'),
             event: OCA.ShareReview.Navigation.handleExportNavigation,
             style: 'icon-sharereview-download',
             pinned: false
@@ -157,7 +159,7 @@ OCA.ShareReview.Navigation = {
         checkbox.addEventListener('change', OCA.ShareReview.Navigation.handleShowTalkChange);
         let label = document.createElement('label');
         label.setAttribute('for', 'showTalkShares');
-        label.innerText = t('sharereview', 'Show talk shares');
+        label.innerText = t(APP_ID, 'Show talk shares');
         liTalk.appendChild(checkbox);
         liTalk.appendChild(label);
         container.appendChild(liTalk);
@@ -215,7 +217,7 @@ OCA.ShareReview.Navigation = {
     },
 
     handleExportClick: function (type) {
-        OC.dialogs.filepicker(t('sharereview', 'Select folder'), function (path) {
+        OC.dialogs.filepicker(t(APP_ID, 'Select folder'), function (path) {
             if (path) {
                 OCA.ShareReview.Backend.export(path, type);
             }
@@ -228,8 +230,7 @@ OCA.ShareReview.Navigation = {
     },
 
     getInitialState: function (key) {
-        const app = 'sharereview';
-        const elem = document.querySelector('#initial-state-' + app + '-' + key);
+        const elem = document.querySelector('#initial-state-' + APP_ID + '-' + key);
         if (elem === null) {
             return false;
         }
@@ -242,7 +243,7 @@ OCA.ShareReview.Backend = {
     getData: function (onlyNew) {
         let newUrl = '';
         if (onlyNew) newUrl = '/new';
-        let requestUrl = OC.generateUrl('apps/sharereview/data') + newUrl;
+        let requestUrl = OC.generateUrl('apps/' + APP_ID + '/data') + newUrl;
         OCA.ShareReview.Visualization.showElement('loadingContainer');
         OCA.ShareReview.Visualization.hideElement('noDataContainer');
         OCA.ShareReview.Visualization.hideElement('tableContainer');
@@ -273,7 +274,7 @@ OCA.ShareReview.Backend = {
 
     delete: function (shareId) {
         OCA.ShareReview.Notification.dialogClose();
-        let requestUrl = OC.generateUrl('apps/sharereview/delete/') + shareId;
+        let requestUrl = OC.generateUrl('apps/' + APP_ID + '/delete/') + shareId;
         fetch(requestUrl, {
             method: 'DELETE',
             headers: OCA.ShareReview.headers()
@@ -282,20 +283,20 @@ OCA.ShareReview.Backend = {
             .then(data => {
                 if (document.getElementById('pauseUpdate').checked === false) {
                     OCA.ShareReview.Backend.getData();
-                    OCA.ShareReview.Notification.notification('success', t('sharereview', 'Share deleted'));
+                    OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Share deleted'));
                 } else {
-                    OCA.ShareReview.Notification.notification('success', t('sharereview', 'Share deleted') + '. ' + t('sharereview', 'Table not reloaded'));
+                    OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Share deleted') + '. ' + t(APP_ID, 'Table not reloaded'));
                 }
             })
             .catch(error => {
-                OCA.ShareReview.Notification.notification('error', t('sharereview', 'Request could not be processed'))
+                OCA.ShareReview.Notification.notification('error', t(APP_ID, 'Request could not be processed'))
             });
     },
 
     deleteMultiple: function (shareIds) {
         OCA.ShareReview.Notification.dialogClose();
         let promises = shareIds.map(id => {
-            let requestUrl = OC.generateUrl('apps/sharereview/delete/') + id;
+            let requestUrl = OC.generateUrl('apps/' + APP_ID + '/delete/') + id;
             return fetch(requestUrl, {
                 method: 'DELETE',
                 headers: OCA.ShareReview.headers()
@@ -305,25 +306,25 @@ OCA.ShareReview.Backend = {
             .then(() => {
                 if (document.getElementById('pauseUpdate').checked === false) {
                     OCA.ShareReview.Backend.getData();
-                    OCA.ShareReview.Notification.notification('success', t('sharereview', 'Share deleted'));
+                    OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Share deleted'));
                 } else {
-                    OCA.ShareReview.Notification.notification('success', t('sharereview', 'Share deleted') + '. ' + t('sharereview', 'Table not reloaded'));
+                    OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Share deleted') + '. ' + t(APP_ID, 'Table not reloaded'));
                 }
             })
             .catch(() => {
-                OCA.ShareReview.Notification.notification('error', t('sharereview', 'Request could not be processed'));
+                OCA.ShareReview.Notification.notification('error', t(APP_ID, 'Request could not be processed'));
             });
     },
 
     confirm: function () {
-        let requestUrl = OC.generateUrl('apps/sharereview/confirm');
+        let requestUrl = OC.generateUrl('apps/' + APP_ID + '/confirm');
         fetch(requestUrl, {
             method: 'POST',
             headers: OCA.ShareReview.headers()
         })
             .then(response => response.json())
             .then(data => {
-                OCA.ShareReview.Notification.notification('success', t('sharereview', 'Timestamp saved'));
+                OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Timestamp saved'));
                 let timestampInMilliseconds = data * 1000;
                 let date = new Date(timestampInMilliseconds);
                 let navTime = document.getElementById('navTime');
@@ -345,21 +346,21 @@ OCA.ShareReview.Backend = {
     },
 
     confirmReset: function () {
-        let requestUrl = OC.generateUrl('apps/sharereview/confirmReset');
+        let requestUrl = OC.generateUrl('apps/' + APP_ID + '/confirmReset');
         fetch(requestUrl, {
             method: 'POST',
             headers: OCA.ShareReview.headers()
         })
             .then(response => response.json())
             .then(data => {
-                OCA.ShareReview.Notification.notification('success', t('sharereview', 'Timestamp deleted'));
+                OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Timestamp deleted'));
                 let navTime = document.getElementById('navTime');
                 if (navTime) navTime.remove();
             });
     },
 
     showTalk: function(state) {
-        let requestUrl = OC.generateUrl('apps/sharereview/showTalk');
+        let requestUrl = OC.generateUrl('apps/' + APP_ID + '/showTalk');
         fetch(requestUrl, {
             method: 'POST',
             headers: OCA.ShareReview.headers(),
@@ -372,7 +373,7 @@ OCA.ShareReview.Backend = {
     },
 
     export: function(folder, type) {
-        let requestUrl = OC.generateUrl('apps/sharereview/report/export');
+        let requestUrl = OC.generateUrl('apps/' + APP_ID + '/report/export');
         fetch(requestUrl, {
             method: 'POST',
             headers: OCA.ShareReview.headers(),
@@ -380,10 +381,10 @@ OCA.ShareReview.Backend = {
         })
             .then(response => response.json())
             .then(() => {
-                OCA.ShareReview.Notification.notification('success', t('sharereview', 'Report created'));
+                OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Report created'));
             })
             .catch(() => {
-                OCA.ShareReview.Notification.notification('error', t('sharereview', 'Request could not be processed'));
+                OCA.ShareReview.Notification.notification('error', t(APP_ID, 'Request could not be processed'));
             });
     },
 
@@ -393,7 +394,7 @@ OCA.ShareReview.Backend = {
         let type = document.getElementById('typeSelect').value;
         let folderOwner = document.getElementById('folderOwner').value;
 
-        let requestUrl = OC.generateUrl('apps/sharereview/report/settings');
+        let requestUrl = OC.generateUrl('apps/' + APP_ID + '/report/settings');
         fetch(requestUrl, {
             method: 'POST',
             headers: OCA.ShareReview.headers(),
@@ -401,7 +402,7 @@ OCA.ShareReview.Backend = {
         })
             .then(response => response.json())
             .then(() => {
-                OCA.ShareReview.Notification.notification('success', t('sharereview', 'Settings saved'));
+                OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Settings saved'));
             });
     },
 };
@@ -413,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let defaultFolderInput = document.getElementById('defaultFolder');
     if (defaultFolderInput) {
         let openPicker = function () {
-            OC.dialogs.filepicker(t('sharereview', 'Select folder'), function (path) {
+            OC.dialogs.filepicker(t(APP_ID, 'Select folder'), function (path) {
                 if (path) {
                     defaultFolderInput.value = path;
                     document.getElementById('folderOwner').value = OC.currentUser;
