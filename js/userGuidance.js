@@ -20,9 +20,7 @@ OCA.ShareReview.Notification = {
             '<div id="sharereviewDialogOverlay" class="shareReviewDialogDim"></div>'
             + '<div id="shareReviewDialogContainer" class="shareReviewDialog">'
             + '<a class="shareReviewDialogClose" id="shareReviewDialogBtnClose"></a>'
-            + '<h2 class="shareReviewDialogHeader" id="shareReviewDialogHeader" style="display:flex;margin-right:30px;">'
-            + header
-            + '</h2>'
+            + '<div class="shareReviewDialogHeader"><span class="shareReviewDialogHeaderIcon"></span><span id="shareReviewDialogHeader" style="margin-left: 10px;"></span></div>'
             + '<span id="shareReviewDialogGuidance" class="userGuidance"></span><br><br>'
             + '<div id="shareReviewDialogContent">'
             + '</div>'
@@ -30,6 +28,7 @@ OCA.ShareReview.Notification = {
             + '<a class="button primary" id="shareReviewDialogBtnGo">' + t('shareReview', 'OK') + '</a>'
             + '</div></div>'
         );
+        document.getElementById('shareReviewDialogHeader').textContent = header;
         document.getElementById('shareReviewDialogGuidance').innerHTML = guidance;
         document.getElementById('shareReviewDialogContent').innerHTML = text;
         document.getElementById("shareReviewDialogBtnClose").addEventListener("click", OCA.ShareReview.Notification.dialogClose);
@@ -41,17 +40,16 @@ OCA.ShareReview.Notification = {
             '<div id="shareReviewDialogOverlay" class="shareReviewDialogDim"></div>'
             + '<div id="shareReviewDialogContainer" class="shareReviewDialog">'
             + '<a class="shareReviewDialogClose" id="shareReviewDialogBtnClose"></a>'
-            + '<h2 class="shareReviewDialogHeader" id="shareReviewDialogHeader" style="display:flex;margin-right:30px;">'
-            + header
-            + '</h2>'
+            + '<div class="shareReviewDialogHeader"><span class="shareReviewDialogHeaderIcon"></span><span id="shareReviewDialogHeader" style="margin-left: 10px;"></span></div>'
             + '<div id="shareReviewDialogContent">'
             + '<div style="text-align:center; padding-top:100px" class="get-metadata icon-loading"></div>'
             + '</div>'
             + '<br><div class="shareReviewDialogButtonrow">'
-            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t('sharereview', 'OK') + '</a>'
             + '<a class="button" id="shareReviewDialogBtnCancel">' + t('sharereview', 'Cancel') + '</a>'
+            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t('sharereview', 'OK') + '</a>'
             + '</div></div>'
         );
+        document.getElementById('shareReviewDialogHeader').textContent = header;
         document.getElementById('shareReviewDialogContent').innerHTML = text;
         document.getElementById("shareReviewDialogBtnClose").addEventListener("click", OCA.ShareReview.Notification.dialogClose);
         document.getElementById("shareReviewDialogBtnCancel").addEventListener("click", OCA.ShareReview.Notification.dialogClose);
@@ -86,19 +84,18 @@ OCA.ShareReview.Notification = {
             '<div id="shareReviewDialogOverlay" class="shareReviewDialogDim"></div>'
             + '<div id="shareReviewDialogContainer" class="shareReviewDialog">'
             + '<a class="shareReviewDialogClose" id="shareReviewDialogBtnClose"></a>'
-            + '<h2 class="shareReviewDialogHeader" id="shareReviewDialogHeader" style="display:flex;margin-right:30px;">'
-            + header
-            + '</h2>'
+            + '<div class="shareReviewDialogHeader"><span class="shareReviewDialogHeaderIcon"></span><span id="shareReviewDialogHeader" style="margin-left: 10px;"></span></div>'
             + '<span id="shareReviewDialogGuidance" class="userGuidance"></span><br><br>'
             + '<div id="shareReviewDialogContent">'
             + '<div style="text-align:center; padding-top:100px" class="get-metadata icon-loading"></div>'
             + '</div>'
             + '<br><div class="shareReviewDialogButtonrow">'
-            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t('sharereview', 'OK') + '</a>'
             + '<a class="button" id="shareReviewDialogBtnCancel">' + t('sharereview', 'Cancel') + '</a>'
+            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t('sharereview', 'OK') + '</a>'
             + '</div></div>'
         );
 
+        document.getElementById('shareReviewDialogHeader').textContent = header;
         document.getElementById("shareReviewDialogBtnClose").addEventListener("click", OCA.ShareReview.Notification.dialogClose);
         document.getElementById("shareReviewDialogBtnCancel").addEventListener("click", OCA.ShareReview.Notification.dialogClose);
         document.getElementById("shareReviewDialogBtnGo").addEventListener("click", callback);

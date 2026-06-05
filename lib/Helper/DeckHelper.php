@@ -18,6 +18,30 @@ class DeckHelper {
 	}
 
 	public function getDeckDisplayName(string $deckId): string {
-		return 'Deck card ' . $deckId;
+		return $this->getDeckBoardDisplayName($deckId);
 	}
+
+	public function getDeckBoardDisplayName(string $deckId): string {
+		if (!class_exists('OCA\\Deck\\Db\\CardMapper') || !class_exists('OCA\\Deck\\Db\\BoardMapper')) {
+			$this->logger->info('Deck mappers are not installed');
+			return $deckId . ' (*)';
+		}
+
+		try {
+			$cardMapper = \OC::$server->query('OCA\\Deck\\Db\\CardMapper');
+			$boardMapper = \OC::$server->query('OCA\\Deck\\Db\\BoardMapper');
+
+			$boardId = $cardMapper->findBoardId((int)$deckId);
+			if ($boardId === null) {
+				return $deckId . ' (*)';
+			}
+
+			$board = $boardMapper->find($boardId);
+			return $board->getTitle() ?: (string)$boardId;
+		} catch (\Throwable $e) {
+			$this->logger->info('Deck board name could not be resolved', ['exception' => $e]);
+			return $deckId . ' (*)';
+		}
+	}
+
 }

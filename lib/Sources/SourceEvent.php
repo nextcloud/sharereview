@@ -20,23 +20,23 @@ class SourceEvent extends Event
 
 	/** @var string */
 	protected $event;
-	/** @var \Closure[] */
+	/** @var array<int, class-string<ISource>> */
 	protected $collections = [];
 
 	/**
-	 * @param string $datasource
+	 * @param class-string<ISource> $datasource
 	 * @since 9.1.0
 	 */
-	public function registerSource(string $datasource)
+	public function registerSource(string $datasource): void
 	{
 		$this->collections[] = $datasource;
 	}
 
 	/**
-	 * @return \Closure[]
+	 * @return array<int, class-string<ISource>>
 	 * @since 9.1.0
 	 */
-	public function getSources()
+	public function getSources(): array
 	{
 		return $this->collections;
 	}

@@ -69,6 +69,10 @@ class ShareService {
 
 		$formated = [];
 		foreach (array_merge($fileShares, $appShares) as $share) {
+			if ($this->isIgnoredShareType((int)$share['type'])) {
+				continue;
+			}
+
 			if ($onlyNew && $this->getComparableTimestamp($share) <= $userTimestamp) {
 				continue;
 			}
@@ -171,6 +175,10 @@ class ShareService {
 		};
 	}
 
+	private function isIgnoredShareType(int $type): bool {
+		return $type === IShare::TYPE_DECK_USER;
+	}
+
 	private function getFormattedTime(int $unixTime): string {
 		return $this->dateTimeCache[$unixTime] ??= (new \DateTime('@' . $unixTime))->format(\DATE_ATOM);
 	}
@@ -220,6 +228,10 @@ class ShareService {
 
 		$sharesByOwner = [];
 		foreach ($shares as $share) {
+			if ($this->isIgnoredShareType((int)$share['share_type'])) {
+				continue;
+			}
+
 			if (!$showTalk && (int)$share['share_type'] === IShare::TYPE_ROOM) {
 				continue;
 			}

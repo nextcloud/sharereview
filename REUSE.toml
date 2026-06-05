@@ -24,7 +24,7 @@ SPDX-FileCopyrightText = "2024-2026 Marcel Scherello"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["img/calendar.svg", "img/password.svg", "img/talk.svg", "img/delete.svg", "img/edit.svg", "img/email.svg", "img/group.svg", "img/link.svg", "img/more.svg", "img/read.svg", "img/user.svg", "img/check.svg", "img/new.svg", "img/reset.svg", "img/shares.svg", "img/talk.svg", "img/deck.svg", "img/teams.svg", "img/federation.svg"]
+path = ["img/calendar.svg", "img/password.svg", "img/talk.svg", "img/delete.svg", "img/edit.svg", "img/mail.svg", "img/group.svg", "img/link.svg", "img/more.svg", "img/read.svg", "img/user.svg", "img/check.svg", "img/new.svg", "img/reset.svg", "img/shares.svg", "img/talk.svg", "img/deck.svg", "img/teams.svg", "img/federation.svg"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2018-2024 Google LLC"
 SPDX-License-Identifier = "Apache-2.0"

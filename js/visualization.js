@@ -147,7 +147,7 @@ OCA.ShareReview.Visualization = {
                 break;
         }
 
-        let returnString = '<div style="display: flex;">' +
+        let returnString = '<div style="display:flex; align-items:center;">' +
             '<div permission="' + dataArray[0] + '" class="' + iconClass + '" title="' + titleText + '"></div>';
 
         if (dataArray[1] !== '') {
@@ -210,7 +210,7 @@ OCA.ShareReview.Visualization = {
                 break;
         }
 
-        return '<div data-order="' + parseInt(dataArray[0]) + '" style="display:flex;">' +
+        return '<div data-order="' + parseInt(dataArray[0]) + '" style="display:flex; align-items:center;">' +
             '<div class="' + iconClass + '" title="' + titleText + '"></div>' +
             '<span style="margin-left: 10px;">' + dataArray[1] + '</span>' +
             '</div>';
