@@ -23,6 +23,30 @@
     background-size: 16px;
 }
 
+.icon-sharereview-create {
+    background-image: url(../img/add.svg);
+    filter: var(--background-invert-if-dark);
+    background-size: 16px;
+}
+
+.icon-sharereview-perm-delete {
+    background-image: url(../img/delete.svg);
+    filter: var(--background-invert-if-dark);
+    background-size: 16px;
+}
+
+.icon-sharereview-manage {
+    background-image: url(../img/settings.svg);
+    filter: var(--background-invert-if-dark);
+    background-size: 16px;
+}
+
+.icon-sharereview-reshare {
+    background-image: url(../img/share.svg);
+    filter: var(--background-invert-if-dark);
+    background-size: 16px;
+}
+
 .icon-sharereview-user {
     background-image: url(../img/person.svg);
     filter: var(--background-invert-if-dark);
@@ -467,3 +491,56 @@ div.dt-container .dt-paging .dt-paging-button {
 #dataTable .dt-type-numeric > div {
   justify-content: center;
 }
+
+/* Table icons: mask approach so color always matches --color-main-text */
+#dataTable .icon-sharereview-read,
+#dataTable .icon-sharereview-edit,
+#dataTable .icon-sharereview-more,
+#dataTable .icon-sharereview-create,
+#dataTable .icon-sharereview-perm-delete,
+#dataTable .icon-sharereview-manage,
+#dataTable .icon-sharereview-reshare,
+#dataTable .icon-sharereview-password,
+#dataTable .icon-sharereview-calendar,
+#dataTable .icon-sharereview-user,
+#dataTable .icon-sharereview-team,
+#dataTable .icon-sharereview-deck,
+#dataTable .icon-sharereview-talk,
+#dataTable .icon-sharereview-link,
+#dataTable .icon-sharereview-group,
+#dataTable .icon-sharereview-email,
+#dataTable .icon-sharereview-federation,
+#dataTable .icon-sharereview-delete {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    background-image: none;
+    background-color: var(--color-main-text);
+    filter: none;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: 16px;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: 16px;
+}
+
+#dataTable .icon-sharereview-read       { mask-image: url(../img/read.svg);     -webkit-mask-image: url(../img/read.svg); }
+#dataTable .icon-sharereview-edit       { mask-image: url(../img/edit.svg);     -webkit-mask-image: url(../img/edit.svg); }
+#dataTable .icon-sharereview-more       { mask-image: url(../img/more.svg);     -webkit-mask-image: url(../img/more.svg); }
+#dataTable .icon-sharereview-password   { mask-image: url(../img/password.svg); -webkit-mask-image: url(../img/password.svg); }
+#dataTable .icon-sharereview-calendar   { mask-image: url(../img/calendar.svg); -webkit-mask-image: url(../img/calendar.svg); }
+#dataTable .icon-sharereview-user       { mask-image: url(../img/person.svg);   -webkit-mask-image: url(../img/person.svg); }
+#dataTable .icon-sharereview-team       { mask-image: url(../img/groups.svg);   -webkit-mask-image: url(../img/groups.svg); }
+#dataTable .icon-sharereview-deck       { mask-image: url(../img/deck.svg);     -webkit-mask-image: url(../img/deck.svg); }
+#dataTable .icon-sharereview-talk       { mask-image: url(../img/talk.svg);     -webkit-mask-image: url(../img/talk.svg); }
+#dataTable .icon-sharereview-link       { mask-image: url(../img/link.svg);     -webkit-mask-image: url(../img/link.svg); }
+#dataTable .icon-sharereview-group      { mask-image: url(../img/group.svg);    -webkit-mask-image: url(../img/group.svg); }
+#dataTable .icon-sharereview-email      { mask-image: url(../img/mail.svg);     -webkit-mask-image: url(../img/mail.svg); }
+#dataTable .icon-sharereview-federation { mask-image: url(../img/share.svg);    -webkit-mask-image: url(../img/share.svg); }
+#dataTable .icon-sharereview-delete      { mask-image: url(../img/delete.svg);   -webkit-mask-image: url(../img/delete.svg); }
+#dataTable .icon-sharereview-create      { mask-image: url(../img/add.svg);      -webkit-mask-image: url(../img/add.svg); }
+#dataTable .icon-sharereview-perm-delete { mask-image: url(../img/delete.svg);   -webkit-mask-image: url(../img/delete.svg); }
+#dataTable .icon-sharereview-manage      { mask-image: url(../img/settings.svg); -webkit-mask-image: url(../img/settings.svg); }
+#dataTable .icon-sharereview-reshare     { mask-image: url(../img/share.svg);    -webkit-mask-image: url(../img/share.svg); }

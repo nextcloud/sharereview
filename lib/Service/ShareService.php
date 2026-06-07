@@ -153,6 +153,7 @@ class ShareService {
 
 		return [
 			'app' => $share['app'],
+			'appId' => $share['appId'] ?? $share['app'] ?? 'files',
 			'object' => $share['object'],
 			'initiator' => $initiatorDisplay,
 			'type' => $type . ';' . $recipientDisplay,

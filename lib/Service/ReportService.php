@@ -218,30 +218,16 @@ class ReportService {
 	}
 
 	private function formatPermission(int $permission, $password, $expiration): string {
-		switch ($permission) {
-			case 1:
-			case 17:
-				$label = $this->l10n->t('read');
-			case 2:
-			case 19:
-			case 15:
-			case 31:
-			case 5:
-				$label = $this->l10n->t('edit');
-			default:
-				$label = $this->l10n->t('more');
-		}
+		$parts = [];
+		if ($permission & 1)  $parts[] = $this->l10n->t('Read');
+		if ($permission & 2)  $parts[] = $this->l10n->t('Update');
+		if ($permission & 4)  $parts[] = $this->l10n->t('Create');
+		if ($permission & 8)  $parts[] = $this->l10n->t('Delete');
+		if ($permission & 16) $parts[] = $this->l10n->t('Re-share');
+		$label = $parts !== [] ? implode(', ', $parts) : $this->l10n->t('None');
 
-		if ($password !== '') {
-			$passLabel = ' ' . $this->l10n->t('Password protected');
-		} else {
-			$passLabel = '';
-		}
-		if ($expiration !== '') {
-			$expLabel = ' ' . $expiration;
-		} else {
-			$expLabel = '';
-		}
+		$passLabel = $password !== '' ? ' ' . $this->l10n->t('Password protected') : '';
+		$expLabel = $expiration !== '' ? ' ' . $expiration : '';
 		return $label . $passLabel . $expLabel;
 	}
 
