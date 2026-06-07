@@ -35,6 +35,7 @@
     "Daily" : "روزانه",
     "Weekly" : "هفته گی",
     "Monthly" : "ماهانه",
+    "Format" : "قالب",
     "Save" : "ذخیره"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

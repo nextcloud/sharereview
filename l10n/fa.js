@@ -37,6 +37,7 @@ OC.L10N.register(
     "Daily" : "روزانه",
     "Weekly" : "هفته گی",
     "Monthly" : "ماهانه",
+    "Format" : "قالب",
     "Save" : "ذخیره"
 },
 "nplurals=2; plural=(n > 1);");
