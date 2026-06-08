@@ -9,9 +9,9 @@ OC.L10N.register(
     "Password protected" : "Zaštićeno lozinkom",
     "Link" : "Veza",
     "User" : "User",
+    "None" : "Ništa",
     "Group" : "Grupa",
     "Other" : "Ostali",
-    "None" : "Ništa",
     "Daily" : "Dnevno",
     "Weekly" : "Sedmično",
     "Save" : "Spremi"

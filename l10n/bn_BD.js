@@ -9,9 +9,9 @@ OC.L10N.register(
     "Time" : "সময়",
     "Password protected" : "কূটশব্দদ্বারা সুরক্ষিত",
     "User" : "User",
+    "None" : "কোনটিই নয়",
     "Group" : "গোষ্ঠীসমূহ",
     "Other" : "অন্যান্য",
-    "None" : "কোনটিই নয়",
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",
     "Save" : "সংরক্ষণ"

@@ -5,9 +5,9 @@ OC.L10N.register(
     "OK" : "OK",
     "Cancel" : "Cancelar",
     "Search" : "Buscar",
+    "None" : "Denguno",
     "Group" : "Grupo",
     "Files" : "Archivos",
-    "None" : "Denguno",
     "Daily" : "Diariament",
     "Weekly" : "Semanalment"
 },

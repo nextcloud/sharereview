@@ -21,11 +21,11 @@ OC.L10N.register(
     "E-mail" : "Corréu",
     "Link" : "Enllaz",
     "User" : "Usuariu",
+    "None" : "Nada",
     "Group" : "Grupu",
     "Reshare" : "Volver compartir",
     "Files" : "Ficheros",
     "PDF" : "PDF",
-    "None" : "Nada",
     "Daily" : "Caldía",
     "Weekly" : "Selmanalmente",
     "Save" : "Guardar"

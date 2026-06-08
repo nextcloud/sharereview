@@ -8,6 +8,7 @@ OC.L10N.register(
     "Type" : "Տիպ",
     "Time" : "Ժամ",
     "Select all" : "Նշել բոլորը",
+    "Update" : "Թարմացնել",
     "Link" : "Հղում",
     "User" : "User",
     "Group" : "Խումբ",

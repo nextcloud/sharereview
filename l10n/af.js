@@ -9,12 +9,11 @@ OC.L10N.register(
     "App" : "Toep",
     "Time" : "Tyd",
     "Select all" : "Kies alle",
-    "edit" : "edigeer",
     "User" : "Gebruiker",
+    "None" : "Geen",
     "Other" : "Ander",
     "Files" : "Lêer ",
     "PDF" : "PDF",
-    "None" : "Geen",
     "Daily" : "Daagliks",
     "Weekly" : "Weekliks",
     "Save" : "Stoor"
