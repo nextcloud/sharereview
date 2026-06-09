@@ -7,6 +7,8 @@ OC.L10N.register(
     "Search" : "Search",
     "Type" : "ধরণ",
     "Time" : "সময়",
+    "Read" : "পড়",
+    "Update" : "পরিবর্ধন",
     "Password protected" : "কূটশব্দদ্বারা সুরক্ষিত",
     "User" : "User",
     "None" : "কোনটিই নয়",

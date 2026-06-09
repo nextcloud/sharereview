@@ -6,6 +6,8 @@ OC.L10N.register(
     "Cancel" : "Odustani",
     "Search" : "Search",
     "Select all" : "Označi sve",
+    "Update" : "Ažuriraj",
+    "Create" : "Kreiraj",
     "Password protected" : "Zaštićeno lozinkom",
     "Link" : "Veza",
     "User" : "User",

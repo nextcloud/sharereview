@@ -9,6 +9,8 @@ OC.L10N.register(
     "App" : "Tətbiq",
     "Time" : "Vaxt",
     "Select all" : "Hamısıı seç",
+    "Read" : "Oxu",
+    "Update" : "Yenilənmə",
     "User" : "User",
     "None" : "Heç bir",
     "Group" : "Qrup",

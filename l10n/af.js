@@ -9,6 +9,7 @@ OC.L10N.register(
     "App" : "Toep",
     "Time" : "Tyd",
     "Select all" : "Kies alle",
+    "Update" : "Werk by",
     "User" : "Gebruiker",
     "None" : "Geen",
     "Other" : "Ander",

@@ -30,9 +30,10 @@
     "Time" : "Aeg",
     "Action" : "Tegevus",
     "Select all" : "Vali kõik",
-    "Read" : "Lugemine",
+    "Read" : "Loe",
     "Update" : "Uuenda",
     "Create" : "Lisa",
+    "Re-share" : "Jaga uuesti",
     "Manage" : "Halda",
     "Password protected" : "Kaitstud salasõnaga",
     "Expiration date: " : "Aegumise kuupäev:",
@@ -68,7 +69,7 @@
     "Schedule" : "Ajakava",
     "Daily" : "Kord päevas",
     "Weekly" : "Kord nädalas",
-    "Monthly" : "Igakuine",
+    "Monthly" : "Kord kuus",
     "Format" : "Vorming",
     "Save" : "Salvesta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
