@@ -35,6 +35,7 @@ OC.L10N.register(
     "Read" : "Léigh",
     "Update" : "Nuashonrú",
     "Create" : "Cruthaigh",
+    "Re-share" : "Athroinn",
     "Manage" : "Bainistigh",
     "Password protected" : "Pasfhocal cosanta",
     "Expiration date: " : "Dáta éaga:",
