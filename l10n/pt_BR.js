@@ -35,6 +35,7 @@ OC.L10N.register(
     "Read" : "Ler",
     "Update" : "Atualizar",
     "Create" : "Criar",
+    "Re-share" : "Recompartilhar",
     "Manage" : "Gerenciar",
     "Password protected" : "Protegido por senha",
     "Expiration date: " : "Data de expiração",
