@@ -34,6 +34,7 @@ OC.L10N.register(
     "Federation" : "Federacija",
     "E-mail" : "El. paštas",
     "Link" : "Nuoroda",
+    "User group" : "Vartotojų grupė",
     "User" : "Vartotojas",
     "None" : "Nėra",
     "Group" : "Grupė",
