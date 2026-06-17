@@ -19,15 +19,17 @@ OCA.ShareReview.Notification = {
 
     info: function (header, text, guidance) {
         document.body.insertAdjacentHTML('beforeend',
-            '<div id="sharereviewDialogOverlay" class="shareReviewDialogDim"></div>'
+            '<div id="shareReviewDialogOverlay" class="shareReviewDialogDim"></div>'
             + '<div id="shareReviewDialogContainer" class="shareReviewDialog">'
             + '<a class="shareReviewDialogClose" id="shareReviewDialogBtnClose"></a>'
+            + '<div class="shareReviewDialogHeaderWrap">'
             + '<div class="shareReviewDialogHeader"><span class="shareReviewDialogHeaderIcon"></span><span id="shareReviewDialogHeader" style="margin-left: 10px;"></span></div>'
-            + '<span id="shareReviewDialogGuidance" class="userGuidance"></span><br><br>'
+            + '<span id="shareReviewDialogGuidance" class="userGuidance shareReviewDialogGuidance"></span>'
+            + '</div>'
             + '<div id="shareReviewDialogContent">'
             + '</div>'
-            + '<br><div class="shareReviewDialogButtonrow">'
-            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t(APP_ID, 'OK') + '</a>'
+            + '<div class="shareReviewDialogButtonrow">'
+            + '<a class="button shareReviewPrimary" id="shareReviewDialogBtnGo">' + t(APP_ID, 'OK') + '</a>'
             + '</div></div>'
         );
         document.getElementById('shareReviewDialogHeader').textContent = header;
@@ -42,13 +44,15 @@ OCA.ShareReview.Notification = {
             '<div id="shareReviewDialogOverlay" class="shareReviewDialogDim"></div>'
             + '<div id="shareReviewDialogContainer" class="shareReviewDialog">'
             + '<a class="shareReviewDialogClose" id="shareReviewDialogBtnClose"></a>'
+            + '<div class="shareReviewDialogHeaderWrap">'
             + '<div class="shareReviewDialogHeader"><span class="shareReviewDialogHeaderIcon"></span><span id="shareReviewDialogHeader" style="margin-left: 10px;"></span></div>'
+            + '</div>'
             + '<div id="shareReviewDialogContent">'
             + '<div style="text-align:center; padding-top:100px" class="get-metadata icon-loading"></div>'
             + '</div>'
-            + '<br><div class="shareReviewDialogButtonrow">'
+            + '<div class="shareReviewDialogButtonrow">'
             + '<a class="button" id="shareReviewDialogBtnCancel">' + t(APP_ID, 'Cancel') + '</a>'
-            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t(APP_ID, 'OK') + '</a>'
+            + '<a class="button shareReviewPrimary" id="shareReviewDialogBtnGo">' + t(APP_ID, 'OK') + '</a>'
             + '</div></div>'
         );
         document.getElementById('shareReviewDialogHeader').textContent = header;
@@ -86,14 +90,16 @@ OCA.ShareReview.Notification = {
             '<div id="shareReviewDialogOverlay" class="shareReviewDialogDim"></div>'
             + '<div id="shareReviewDialogContainer" class="shareReviewDialog">'
             + '<a class="shareReviewDialogClose" id="shareReviewDialogBtnClose"></a>'
+            + '<div class="shareReviewDialogHeaderWrap">'
             + '<div class="shareReviewDialogHeader"><span class="shareReviewDialogHeaderIcon"></span><span id="shareReviewDialogHeader" style="margin-left: 10px;"></span></div>'
-            + '<span id="shareReviewDialogGuidance" class="userGuidance"></span><br><br>'
+            + '<span id="shareReviewDialogGuidance" class="userGuidance shareReviewDialogGuidance"></span>'
+            + '</div>'
             + '<div id="shareReviewDialogContent">'
             + '<div style="text-align:center; padding-top:100px" class="get-metadata icon-loading"></div>'
             + '</div>'
-            + '<br><div class="shareReviewDialogButtonrow">'
+            + '<div class="shareReviewDialogButtonrow">'
             + '<a class="button" id="shareReviewDialogBtnCancel">' + t(APP_ID, 'Cancel') + '</a>'
-            + '<a class="button primary" id="shareReviewDialogBtnGo">' + t(APP_ID, 'OK') + '</a>'
+            + '<a class="button shareReviewPrimary" id="shareReviewDialogBtnGo">' + t(APP_ID, 'OK') + '</a>'
             + '</div></div>'
         );
 
@@ -114,7 +120,15 @@ OCA.ShareReview.Notification = {
     },
 
     dialogClose: function () {
-        document.getElementById('shareReviewDialogContainer').remove();
-        document.getElementById('shareReviewDialogOverlay').remove();
+        const dialogContainer = document.getElementById('shareReviewDialogContainer');
+        const dialogOverlay = document.getElementById('shareReviewDialogOverlay');
+
+        if (dialogContainer) {
+            dialogContainer.remove();
+        }
+
+        if (dialogOverlay) {
+            dialogOverlay.remove();
+        }
     },
 }

@@ -1,10 +1,10 @@
 # Changelog
 
-### 2.1.0 - 2026-05-xx
-### Changed
+### 2.3.0 - 2026-06-17
+### Changed 
+- NC34 compatibility
 - Update bundled DataTables to v2.3.8.
 - Include own jQuery v4.0
-
 
 ### 2.2.0 - 2026-05-11
 ### Added

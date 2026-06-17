@@ -146,11 +146,11 @@ OCA.ShareReview.Navigation = {
             name: t(APP_ID, 'Export report'),
             event: OCA.ShareReview.Navigation.handleExportNavigation,
             style: 'icon-sharereview-download',
-            pinned: false
+            pinned: true
         }));
 
         let liTalk = document.createElement('li');
-        liTalk.classList.add('pinned', 'first-pinned');
+        liTalk.classList.add('pinned');
         let checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = 'showTalkShares';
