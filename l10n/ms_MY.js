@@ -7,6 +7,7 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Search" : "Search",
     "Type" : "Jenis",
+    "Update" : "Kemaskini",
     "User" : "User",
     "Other" : "Lain",
     "Files" : "Fail-fail",

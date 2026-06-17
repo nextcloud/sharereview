@@ -7,6 +7,8 @@ OC.L10N.register(
     "Search" : "Gözlemek",
     "Type" : "Görnüşi",
     "Select all" : "Hemmesini saýlaň",
+    "Update" : "Täzelemek",
+    "Create" : "Dörediň",
     "E-mail" : "E-mail",
     "Link" : "Baglanyşyk",
     "User" : "Ulanyjy",

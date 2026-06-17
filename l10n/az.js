@@ -9,10 +9,12 @@ OC.L10N.register(
     "App" : "Tətbiq",
     "Time" : "Vaxt",
     "Select all" : "Hamısıı seç",
+    "Read" : "Oxu",
+    "Update" : "Yenilənmə",
     "User" : "User",
+    "None" : "Heç bir",
     "Group" : "Qrup",
     "Other" : "Digər",
-    "None" : "Heç bir",
     "Daily" : "Günlük",
     "Weekly" : "Həftəlik",
     "Save" : "Saxla"

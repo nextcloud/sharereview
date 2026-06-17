@@ -10,10 +10,10 @@ OC.L10N.register(
     "Password protected" : "ಗುಪ್ತಪದದಿಂದ ರಕ್ಷಿಸಲಾಗಿದೆ",
     "Link" : "ಸಂಪರ್ಕ ಕೊಂಡಿ",
     "User" : "User",
+    "None" : "﻿ಯಾವುದೂ ಇಲ್ಲ",
     "Group" : "﻿ಗುಂಪು",
     "Other" : "﻿ಇತರೆ",
     "Files" : "﻿ಕಡತಗಳು",
-    "None" : "﻿ಯಾವುದೂ ಇಲ್ಲ",
     "Save" : "﻿ಉಳಿಸಿ"
 },
 "nplurals=2; plural=(n > 1);");

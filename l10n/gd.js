@@ -7,10 +7,11 @@ OC.L10N.register(
     "Search" : "Lorg",
     "Type" : "Seòrsa",
     "Select all" : "Tagh na h-uile",
+    "Create" : "Cruthaich",
     "Link" : "Ceangal",
     "User" : "Cleachdaiche",
-    "Files" : "Faidhlichean",
     "None" : "Chan eil gin",
+    "Files" : "Faidhlichean",
     "Save" : "Sàbhail"
 },
 "nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3;");
