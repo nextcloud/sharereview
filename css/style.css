@@ -544,3 +544,24 @@ div.dt-container .dt-paging .dt-paging-button {
 #dataTable .icon-sharereview-perm-delete { mask-image: url(../img/delete.svg);   -webkit-mask-image: url(../img/delete.svg); }
 #dataTable .icon-sharereview-manage      { mask-image: url(../img/settings.svg); -webkit-mask-image: url(../img/settings.svg); }
 #dataTable .icon-sharereview-reshare     { mask-image: url(../img/share.svg);    -webkit-mask-image: url(../img/share.svg); }
+
+
+table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order::after, table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order::after, table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order::after, table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order::after {
+    /* top: 50%; */
+    top: calc(50% + 1px);
+}
+
+table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order::before, table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order::before, table.dataTable thead > tr > td.dt-orderable-asc span.dt-column-order::before, table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order::before {
+    /* bottom: 50%; */
+    bottom: calc(50% + 1px);
+}
+
+table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order::before, table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order::after, table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order::before, table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order::after, table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order::before, table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order::after, table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order::before, table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order::after, table.dataTable thead > tr > td.dt-orderable-asc span.dt-column-order::before, table.dataTable thead > tr > td.dt-orderable-asc span.dt-column-order::after, table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order::before, table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order::after, table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order::before, table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order::after, table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order::before, table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order::after {
+    /* opacity: .125; */
+    opacity: .3;
+}
+
+table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order::before, table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order::after, table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order::before, table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order::after {
+    /* opacity: .6; */
+    opacity: 1;
+}
