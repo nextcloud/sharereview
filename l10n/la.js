@@ -1,12 +1,9 @@
 OC.L10N.register(
     "sharereview",
     {
-    "Delete" : "Strika",
-    "Settings saved" : "Stillingar eru goymd",
+    "Delete" : "Delete",
     "OK" : "OK",
     "Cancel" : "Cancel",
-    "Daily" : "Hvønn dag",
-    "Weekly" : "Hvørja viku",
     "Save" : "Save"
 },
 "nplurals=2; plural=(n != 1);");

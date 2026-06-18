@@ -1,6 +1,7 @@
 OC.L10N.register(
     "sharereview",
     {
+    "Delete" : "Delete",
     "Select folder" : "බහාලුම තෝරන්න",
     "OK" : "OK",
     "Cancel" : "අවලංගු",
@@ -16,6 +17,7 @@ OC.L10N.register(
     "Other" : "වෙනත්",
     "Files" : "ගොනු",
     "Daily" : "දිනපතා",
-    "Weekly" : "සතිපතා"
+    "Weekly" : "සතිපතා",
+    "Save" : "Save"
 },
 "nplurals=2; plural=(n != 1);");

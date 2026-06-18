@@ -9,6 +9,7 @@
     "Group" : "Grupo",
     "Files" : "Archivos",
     "Daily" : "Diariament",
-    "Weekly" : "Semanalment"
+    "Weekly" : "Semanalment",
+    "Save" : "Save"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

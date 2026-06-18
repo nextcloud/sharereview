@@ -31,6 +31,7 @@ OC.L10N.register(
     "Time" : "Hora",
     "Action" : "Acción",
     "Select all" : "Seleccionar todo",
+    "Read" : "Leer",
     "Update" : "Actualizar",
     "Create" : "Crear",
     "Manage" : "Gestionar",

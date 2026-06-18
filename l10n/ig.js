@@ -4,8 +4,6 @@ OC.L10N.register(
     "Delete" : "Delete",
     "OK" : "OK",
     "Cancel" : "Cancel",
-    "Daily" : "दैनिक",
-    "Weekly" : "साप्ताहिक",
     "Save" : "Save"
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=1; plural=0;");

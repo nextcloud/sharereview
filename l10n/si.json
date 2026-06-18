@@ -1,4 +1,5 @@
 { "translations": {
+    "Delete" : "Delete",
     "Select folder" : "බහාලුම තෝරන්න",
     "OK" : "OK",
     "Cancel" : "අවලංගු",
@@ -14,6 +15,7 @@
     "Other" : "වෙනත්",
     "Files" : "ගොනු",
     "Daily" : "දිනපතා",
-    "Weekly" : "සතිපතා"
+    "Weekly" : "සතිපතා",
+    "Save" : "Save"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

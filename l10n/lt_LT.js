@@ -18,6 +18,7 @@ OC.L10N.register(
     "Showing _START_ to _END_ of _TOTAL_ entries" : "Rodoma nuo _PRADŽIOS_ iki _PABAIGOS_ iš _VISŲ_ įrašų",
     "Showing 0 to 0 of 0 entries" : "Rodoma nuo 0 iki 0 iš 0 įrašų",
     "App" : "Programėlė",
+    "Item" : "Vienetas",
     "Type" : "Tipas",
     "Permissions" : "Leidimai",
     "Time" : "Laikas",

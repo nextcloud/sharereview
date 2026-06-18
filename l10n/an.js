@@ -11,6 +11,7 @@ OC.L10N.register(
     "Group" : "Grupo",
     "Files" : "Archivos",
     "Daily" : "Diariament",
-    "Weekly" : "Semanalment"
+    "Weekly" : "Semanalment",
+    "Save" : "Save"
 },
 "nplurals=2; plural=(n != 1);");

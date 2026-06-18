@@ -10,6 +10,7 @@ OC.L10N.register(
     "Type" : "Tipo",
     "Time" : "Dato",
     "Select all" : "Elekti ĉion",
+    "Read" : "Legi",
     "Update" : "Ĝisdatigi",
     "Manage" : "Administri",
     "Password protected" : "Protektita per pasvorto",

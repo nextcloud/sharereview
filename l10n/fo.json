@@ -4,6 +4,7 @@
     "OK" : "OK",
     "Cancel" : "Cancel",
     "Daily" : "Hvønn dag",
-    "Weekly" : "Hvørja viku"
+    "Weekly" : "Hvørja viku",
+    "Save" : "Save"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

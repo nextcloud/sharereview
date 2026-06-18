@@ -19,6 +19,7 @@ OC.L10N.register(
     "Time" : "Ώρα",
     "Action" : "Ενέργεια",
     "Select all" : "Επιλογή όλων",
+    "Read" : "Ανάγνωση",
     "Update" : "Ενημέρωση",
     "Create" : "Δημιουργία",
     "Manage" : "Διαχείριση",

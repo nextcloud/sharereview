@@ -8,6 +8,7 @@ OC.L10N.register(
     "App" : "Ap",
     "Type" : "Math",
     "Time" : "Amser",
+    "Update" : "Diweddaru",
     "Password protected" : "Diogelwyd â chyfrinair",
     "Link" : "Dolen",
     "User" : "Defnyddwyr",

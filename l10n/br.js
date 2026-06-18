@@ -8,6 +8,7 @@ OC.L10N.register(
     "Search" : "Klask",
     "Type" : "Seurt",
     "Select all" : "Dibab pep tra",
+    "Update" : "Hizivaat",
     "Federation" : "Kevread",
     "E-mail" : "Postel",
     "User" : "Implijer",
