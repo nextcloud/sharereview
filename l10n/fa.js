@@ -39,7 +39,7 @@ OC.L10N.register(
     "Manage" : "مدیریت",
     "Password protected" : "محافظت‌شده با رمز عبور",
     "Expiration date: " : "تاریخ انقضا:",
-    "Deck" : "Deck",
+    "Deck" : "کارتابل",
     "Talk room" : "اتاق Talk",
     "Team" : "تیم",
     "Federation" : "فدراسیون",
