@@ -35,6 +35,7 @@ OC.L10N.register(
     "Read" : "Читати",
     "Update" : "Оновлювати",
     "Create" : "Додати",
+    "Re-share" : "Повторно поділитися",
     "Manage" : "Керувати",
     "Password protected" : "Захищено паролем",
     "Expiration date: " : "Дата завершення доступу:",
