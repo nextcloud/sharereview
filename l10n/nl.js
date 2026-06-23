@@ -35,6 +35,7 @@ OC.L10N.register(
     "Read" : "Lezen",
     "Update" : "Bijwerken",
     "Create" : "Creëer",
+    "Re-share" : "Opnieuw delen",
     "Manage" : "Beheren",
     "Password protected" : "Wachtwoord-beveiligd",
     "Expiration date: " : "Verval datum:",
