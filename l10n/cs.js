@@ -35,6 +35,7 @@ OC.L10N.register(
     "Read" : "Nastavit jako přečtené",
     "Update" : "Aktualizovat",
     "Create" : "Vytvářet",
+    "Re-share" : "Nasdílet dál dalším",
     "Manage" : "Spravovat",
     "Password protected" : "Chráněno heslem",
     "Expiration date: " : "Datum skončení platnosti: ",
