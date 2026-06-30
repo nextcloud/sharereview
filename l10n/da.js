@@ -17,6 +17,7 @@ OC.L10N.register(
     "Showing _START_ to _END_ of _TOTAL_ entries" : "Viser _START_ til _END_ af _TOTAL_ poster",
     "Showing 0 to 0 of 0 entries" : "Viser 0 til 0 af 0 poster",
     "App" : "App",
+    "Item" : "Konto",
     "Type" : "Type",
     "Permissions" : "Rettigheder",
     "Time" : "Tid",
