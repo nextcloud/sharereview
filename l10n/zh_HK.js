@@ -8,7 +8,7 @@ OC.L10N.register(
     "New Shares" : "新分享",
     "Confirm reviewed" : "確認評論",
     "Reset time" : "重設時間",
-    "Export report" : "導出報告",
+    "Export report" : "匯出報告",
     "Show talk shares" : "Talk 分享顯示",
     "Select folder" : "選擇資料夾",
     "Share deleted" : "分享已刪除",
