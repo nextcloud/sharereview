@@ -35,6 +35,7 @@ OC.L10N.register(
     "Read" : "讀取",
     "Update" : "更新",
     "Create" : "創建",
+    "Re-share" : "轉分享",
     "Manage" : "管理",
     "Password protected" : "密碼保護",
     "Expiration date: " : "到期日：",
