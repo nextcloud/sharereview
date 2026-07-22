@@ -42,7 +42,7 @@ OC.L10N.register(
     "Deck" : "Deck",
     "Talk room" : "Talk 聊天室",
     "Team" : "團隊",
-    "Federation" : "聯盟",
+    "Federation" : "聯邦",
     "E-mail" : "電郵地址",
     "Link" : "連結",
     "User group" : "用戶群組",
