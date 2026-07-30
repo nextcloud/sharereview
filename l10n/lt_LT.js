@@ -40,7 +40,7 @@ OC.L10N.register(
     "Password protected" : "Apsaugota slaptažodžiu",
     "Expiration date: " : "Galiojimo pabaigos data",
     "Deck" : "Darbai",
-    "Talk room" : "Pokalbių kambarys",
+    "Talk room" : "„Pokalbiai“ kambarys",
     "Team" : "Komanda",
     "Federation" : "Federacija",
     "E-mail" : "El. paštas",
