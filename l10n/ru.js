@@ -43,6 +43,7 @@ OC.L10N.register(
     "Files" : "Файлы",
     "Share Review" : "Поделитесь отзывом",
     "Review and audit all shares" : "Просматривайте и проводите аудит всех общих ресурсов",
+    "Delete selected" : "Удалить выбранное",
     "The app must be restricted to at least one specific user group in the app store. This prevents accidental exposure of the shared content to all users." : "Приложение должно быть ограничено по крайней мере одной определенной группой пользователей в магазине приложений. Это предотвращает случайное раскрытие общего контента всем пользователям.",
     "PDF" : "PDF",
     "Schedule" : "Расписание",
