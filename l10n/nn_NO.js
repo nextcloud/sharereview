@@ -10,6 +10,7 @@ OC.L10N.register(
     "Time" : "Tid",
     "Select all" : "Merk alt",
     "Update" : "Oppdater",
+    "Create" : "Opprett",
     "Password protected" : "Passordverna",
     "E-mail" : "E-post",
     "Link" : "Lenkje",
@@ -19,6 +20,7 @@ OC.L10N.register(
     "Other" : "Anna",
     "Daily" : "Kvar dag",
     "Weekly" : "Kvar veke",
+    "Monthly" : "Månadleg",
     "Save" : "Lagre"
 },
 "nplurals=2; plural=(n != 1);");
