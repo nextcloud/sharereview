@@ -14,11 +14,17 @@ use OCA\ShareReview\Helper\TalkHelper;
 use OCA\ShareReview\Helper\DeckHelper;
 use OCA\ShareReview\Db\ShareMapper;
 use OCA\ShareReview\Helper\CircleHelper;
+use OCA\ShareReview\Sources\ISource;
 use OCA\ShareReview\Sources\SourceEvent;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\PreConditionNotMetException;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\ShareReview\IShareReviewSource;
+use OCP\Share\ShareReview\RegisterShareReviewSourceEvent;
+use OCP\Share\ShareReview\ShareReviewEntry;
+use OCP\Share\ShareReview\ShareReviewPermission;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
@@ -41,6 +47,7 @@ class ShareService {
 	private const PERM_FILES_DELETE = 'files:delete';
 	private const PERM_FILES_RESHARE = 'files:reshare';
 
+	/** @var array<string, IShareReviewSource|ISource>|null */
 	private ?array $dataSources = null;
 	private static array $displayNameCache = [];
 	private array $dateTimeCache = [];
@@ -64,6 +71,7 @@ class ShareService {
 		private readonly CircleHelper $circleHelper,
 		private readonly IEventDispatcher $dispatcher,
 		private readonly IL10N $l10n,
+		private readonly ContainerInterface $container,
 	) {
 	}
 
@@ -324,11 +332,45 @@ class ShareService {
 	private function getAppShares(): array {
 		$formated = [];
 		foreach ($this->getRegisteredSources() as $appId => $app) {
-			foreach ($app->getShares() as $share) {
-				$formated[] = $this->legacyAppShareToArray($share, $appId);
+			foreach ($app->getShares() as $entry) {
+				$formated[] = $entry instanceof ShareReviewEntry
+					? $this->appShareEntryToArray($entry, $appId)
+					: $this->legacyAppShareToArray($entry, $appId);
 			}
 		}
 		return $formated;
+	}
+
+	/**
+	 * Convert a ShareReviewEntry to the internal share array shape shared with files shares.
+	 */
+	private function appShareEntryToArray(ShareReviewEntry $entry, string $appId): array {
+		$permissions = array_map(
+			static fn (ShareReviewPermission $permission): array => [
+				'id' => $permission->id,
+				'displayName' => $permission->displayName,
+				'hint' => $permission->hint,
+				'priority' => $permission->priority,
+			],
+			$entry->permissions,
+		);
+		usort($permissions, static fn (array $a, array $b): int => $b['priority'] <=> $a['priority']);
+
+		return [
+			'id' => $entry->id,
+			'app' => $appId,
+			'object' => $entry->object,
+			'initiator' => $entry->initiator,
+			'type' => $entry->type,
+			'recipient' => $entry->recipient,
+			'permissions' => $permissions,
+			'action' => $entry->action,
+			'timestamp' => $entry->lastModifiedTimestamp,
+			'time' => $this->getFormattedTime($entry->lastModifiedTimestamp),
+			'password' => $entry->hasPassword,
+			'expiration' => $entry->expirationTimestamp !== null ? date('Y-m-d H:i:s', $entry->expirationTimestamp) : '',
+			'parent' => $entry->parent,
+		];
 	}
 
 	/**
@@ -394,24 +436,38 @@ class ShareService {
 		return $rows;
 	}
 
+	/**
+	 * Resolve the sources registered through the OCP event (Nextcloud >= 34.0.2)
+	 * and the app-local SourceEvent, keyed by source name. The first registration
+	 * of a name wins, so on a collision the OCP-registered source shadows a
+	 * legacy-registered one.
+	 */
 	private function getRegisteredSources(): array {
 		if ($this->dataSources !== null) {
 			return $this->dataSources;
 		}
 
-		$dataSources = [];
-		$event = new SourceEvent();
-		$this->dispatcher->dispatchTyped($event);
+		$classes = [];
+		if (class_exists(RegisterShareReviewSourceEvent::class)) {
+			$ocpEvent = new RegisterShareReviewSourceEvent();
+			$this->dispatcher->dispatchTyped($ocpEvent);
+			$classes = $ocpEvent->getSources();
+		}
+		$legacyEvent = new SourceEvent();
+		$this->dispatcher->dispatchTyped($legacyEvent);
+		$classes = array_unique(array_merge($classes, $legacyEvent->getSources()));
 
-		foreach ($event->getSources() as $class) {
+		$dataSources = [];
+		foreach ($classes as $class) {
 			try {
-				$uniqueId = \OC::$server->get($class)->getName();
+				$source = $this->container->get($class);
+				$uniqueId = $source->getName();
 				if (isset($dataSources[$uniqueId])) {
 					$this->logger->error('Data source with the same ID already registered: ' . $uniqueId);
 					continue;
 				}
-				$dataSources[$uniqueId] = \OC::$server->get($class);
-			} catch (\Error $e) {
+				$dataSources[$uniqueId] = $source;
+			} catch (\Throwable $e) {
 				$this->logger->error('Can not initialize data source: ' . json_encode($class));
 				$this->logger->error($e->getMessage());
 			}
