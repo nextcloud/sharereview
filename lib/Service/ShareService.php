@@ -31,9 +31,23 @@ use OCP\IL10N;
 
 class ShareService {
 
+	/**
+	 * Mirror OCP\Share\ShareReview\ShareReviewPermission::FILES_* — not referenced
+	 * directly so the app keeps running on servers without that class.
+	 */
+	private const PERM_FILES_READ = 'files:read';
+	private const PERM_FILES_UPDATE = 'files:update';
+	private const PERM_FILES_CREATE = 'files:create';
+	private const PERM_FILES_DELETE = 'files:delete';
+	private const PERM_FILES_RESHARE = 'files:reshare';
+
 	private ?array $dataSources = null;
 	private static array $displayNameCache = [];
 	private array $dateTimeCache = [];
+	/** @var array<int, array{id: string, displayName: string, hint: ?string, priority: int}>|null */
+	private ?array $filePermissionRows = null;
+	/** @var array<int, array{id: string, displayName: string, hint: ?string, priority: int}>|null */
+	private ?array $legacyPermissionRows = null;
 
 	public function __construct(
 		private readonly IAppConfig $appConfig,
@@ -157,7 +171,9 @@ class ShareService {
 			'object' => $share['object'],
 			'initiator' => $initiatorDisplay,
 			'type' => $type . ';' . $recipientDisplay,
-			'permissions' => $this->buildPermissions($share),
+			'permissions' => $share['permissions'],
+			'password' => (bool)($share['password'] ?? false),
+			'expiration' => (string)($share['expiration'] ?? ''),
 			'time' => $share['time'],
 			'action' => $this->buildAction($share),
 		];
@@ -197,12 +213,6 @@ class ShareService {
 
 		$timestamp = strtotime((string)$time);
 		return $timestamp === false ? 0 : $timestamp;
-	}
-
-	private function buildPermissions(array $share): string {
-		$password = ($share['password'] ?? '') !== '' ? $share['password'] : '';
-		$expiration = ($share['expiration'] ?? '') !== '' ? $share['expiration'] : '';
-		return $share['permissions'] . ';' . $password . ';' . $expiration;
 	}
 
 	private function buildAction(array $share): string {
@@ -301,9 +311,9 @@ class ShareService {
 			'initiator' => $share['uid_initiator'],
 			'type' => $share['share_type'],
 			'recipient' => $recipient,
-			'permissions' => $share['permissions'],
+			'permissions' => $this->filePermissionsToList((int)$share['permissions']),
 			'password' => ($share['password'] ?? '') !== '',
-			'expiration' => $share['expiration'],
+			'expiration' => (string)($share['expiration'] ?? ''),
 			'parent' => $share['parent'],
 			'timestamp' => (int)$share['stime'],
 			'time' => $this->getFormattedTime((int)$share['stime']),
@@ -315,10 +325,73 @@ class ShareService {
 		$formated = [];
 		foreach ($this->getRegisteredSources() as $appId => $app) {
 			foreach ($app->getShares() as $share) {
-				$formated[] = $share + ['app' => $appId];
+				$formated[] = $this->legacyAppShareToArray($share, $appId);
 			}
 		}
 		return $formated;
+	}
+
+	/**
+	 * Map a legacy ISource share array onto the normalized row shape with
+	 * permission rows instead of a bitmask.
+	 */
+	private function legacyAppShareToArray(array $share, string $appId): array {
+		$share += ['app' => $appId];
+		$share['permissions'] = $this->legacyPermissionsToList((int)($share['permissions'] ?? 1));
+		$share['password'] = (bool)($share['password'] ?? false);
+		$share['expiration'] = (string)($share['expiration'] ?? '');
+		return $share;
+	}
+
+	/**
+	 * Map a files-share permission bitmask to the same serialized permission
+	 * list the app sources deliver. The rows are immutable and identical for
+	 * every share, so they are built once per request.
+	 *
+	 * @return list<array{id: string, displayName: string, hint: ?string, priority: int}>
+	 */
+	private function filePermissionsToList(int $permissions): array {
+		$this->filePermissionRows ??= [
+			1 => ['id' => self::PERM_FILES_READ, 'displayName' => $this->l10n->t('Read'), 'hint' => null, 'priority' => 80],
+			2 => ['id' => self::PERM_FILES_UPDATE, 'displayName' => $this->l10n->t('Update'), 'hint' => null, 'priority' => 70],
+			4 => ['id' => self::PERM_FILES_CREATE, 'displayName' => $this->l10n->t('Create'), 'hint' => null, 'priority' => 60],
+			8 => ['id' => self::PERM_FILES_DELETE, 'displayName' => $this->l10n->t('Delete'), 'hint' => null, 'priority' => 50],
+			16 => ['id' => self::PERM_FILES_RESHARE, 'displayName' => $this->l10n->t('Re-share'), 'hint' => null, 'priority' => 40],
+		];
+
+		return $this->permissionRowsFromBitmask($this->filePermissionRows, $permissions);
+	}
+
+	/**
+	 * Map a legacy ISource permission bitmask to permission rows in this
+	 * app's own namespace. Bit 16 renders as "Manage" for app shares.
+	 *
+	 * @return list<array{id: string, displayName: string, hint: ?string, priority: int}>
+	 */
+	private function legacyPermissionsToList(int $permissions): array {
+		$this->legacyPermissionRows ??= [
+			1 => ['id' => 'sharereview:read', 'displayName' => $this->l10n->t('Read'), 'hint' => null, 'priority' => 80],
+			2 => ['id' => 'sharereview:update', 'displayName' => $this->l10n->t('Update'), 'hint' => null, 'priority' => 70],
+			4 => ['id' => 'sharereview:create', 'displayName' => $this->l10n->t('Create'), 'hint' => null, 'priority' => 60],
+			8 => ['id' => 'sharereview:delete', 'displayName' => $this->l10n->t('Delete'), 'hint' => null, 'priority' => 50],
+			16 => ['id' => 'sharereview:manage', 'displayName' => $this->l10n->t('Manage'), 'hint' => null, 'priority' => 40],
+		];
+
+		return $this->permissionRowsFromBitmask($this->legacyPermissionRows, $permissions);
+	}
+
+	/**
+	 * @param array<int, array{id: string, displayName: string, hint: ?string, priority: int}> $rowsByBit
+	 * @return list<array{id: string, displayName: string, hint: ?string, priority: int}>
+	 */
+	private function permissionRowsFromBitmask(array $rowsByBit, int $permissions): array {
+		$rows = [];
+		foreach ($rowsByBit as $bit => $row) {
+			if ($permissions & $bit) {
+				$rows[] = $row;
+			}
+		}
+		return $rows;
 	}
 
 	private function getRegisteredSources(): array {

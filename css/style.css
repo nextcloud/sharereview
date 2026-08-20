@@ -554,6 +554,9 @@ div.dt-container .dt-paging .dt-paging-button {
 #dataTable .icon-sharereview-perm-delete,
 #dataTable .icon-sharereview-manage,
 #dataTable .icon-sharereview-reshare,
+#dataTable .icon-sharereview-submit,
+#dataTable .icon-sharereview-results,
+#dataTable .icon-sharereview-embed,
 #dataTable .icon-sharereview-password,
 #dataTable .icon-sharereview-calendar,
 #dataTable .icon-sharereview-user,
@@ -598,7 +601,9 @@ div.dt-container .dt-paging .dt-paging-button {
 #dataTable .icon-sharereview-perm-delete { mask-image: url(../img/delete.svg);   -webkit-mask-image: url(../img/delete.svg); }
 #dataTable .icon-sharereview-manage      { mask-image: url(../img/settings.svg); -webkit-mask-image: url(../img/settings.svg); }
 #dataTable .icon-sharereview-reshare     { mask-image: url(../img/share.svg);    -webkit-mask-image: url(../img/share.svg); }
-
+#dataTable .icon-sharereview-submit      { mask-image: url(../img/submit.svg);   -webkit-mask-image: url(../img/submit.svg); }
+#dataTable .icon-sharereview-results     { mask-image: url(../img/results.svg);  -webkit-mask-image: url(../img/results.svg); }
+#dataTable .icon-sharereview-embed       { mask-image: url(../img/embed.svg);    -webkit-mask-image: url(../img/embed.svg); }
 
 table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order::after, table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order::after, table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order::after, table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order::after {
     /* top: 50%; */
