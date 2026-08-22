@@ -8,6 +8,7 @@ OC.L10N.register(
     "App" : "Applikasjon",
     "Type" : "Skriv",
     "Time" : "Tid",
+    "Action" : "Handling",
     "Select all" : "Merk alt",
     "Update" : "Oppdater",
     "Create" : "Opprett",
