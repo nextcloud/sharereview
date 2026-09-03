@@ -2,6 +2,7 @@ OC.L10N.register(
     "sharereview",
     {
     "Delete" : "Läschen",
+    "Settings saved" : "Astellunge gespäichert",
     "OK" : "OK",
     "Cancel" : "Cancel",
     "Search" : "Sichen",
