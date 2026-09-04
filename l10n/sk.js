@@ -36,6 +36,7 @@ OC.L10N.register(
     "Other" : "Iné",
     "Reshare" : "Zdieľať ďalej",
     "Files" : "Súbory",
+    "Delete selected" : "Odstrániť vybrané",
     "PDF" : "PDF",
     "Schedule" : "Program",
     "Daily" : "Denne",
