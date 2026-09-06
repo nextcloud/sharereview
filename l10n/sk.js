@@ -30,6 +30,7 @@ OC.L10N.register(
     "Team" : "Tím",
     "Federation" : "Združovanie",
     "Link" : "Prepojenie",
+    "User group" : "Skupina používateľov",
     "User" : "Používateľ",
     "None" : "Žiadne",
     "Group" : "Skupina",
