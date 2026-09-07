@@ -8,10 +8,12 @@
 
 namespace OCA\ShareReview\AppInfo;
 
+use OCA\ShareReview\Event\ShareReviewAccessCheckListener;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Share\ShareReview\Events\ShareReviewAccessCheckEvent;
 
 class Application extends App implements IBootstrap
 {
@@ -24,6 +26,10 @@ class Application extends App implements IBootstrap
 
     public function register(IRegistrationContext $context): void
     {
+        $context->registerEventListener(
+            ShareReviewAccessCheckEvent::class,
+            ShareReviewAccessCheckListener::class
+        );
     }
 
     public function boot(IBootContext $context): void
