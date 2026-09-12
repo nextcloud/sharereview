@@ -35,6 +35,7 @@ OC.L10N.register(
     "Read" : "Dibaca",
     "Update" : "Perbarui",
     "Create" : "Buat",
+    "Manage" : "Kelola",
     "Password protected" : "Dilindungi kata sandi",
     "Expiration date: " : "Tanggal kedaluwarsa:",
     "Deck" : "Deck",
