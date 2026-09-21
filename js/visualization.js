@@ -74,6 +74,7 @@ OCA.ShareReview.Visualization = {
         let columns = Object.keys(data[0]).map(key => ({
             title: columnTitles[key] ?? key,
             data: key,
+            visible: !['appId', 'password', 'expiration'].includes(key),
         }));
 
         columns = OCA.ShareReview.Visualization.addColumnRender(columns);
@@ -128,33 +129,61 @@ OCA.ShareReview.Visualization = {
         return columns;
     },
 
+    permissionIcons: {
+        'files:read': 'icon-sharereview-read',
+        'files:update': 'icon-sharereview-edit',
+        'files:create': 'icon-sharereview-create',
+        'files:delete': 'icon-sharereview-perm-delete',
+        'files:reshare': 'icon-sharereview-reshare',
+        'deck:read': 'icon-sharereview-read',
+        'deck:edit': 'icon-sharereview-edit',
+        'deck:share': 'icon-sharereview-reshare',
+        'deck:manage': 'icon-sharereview-manage',
+        'tables:read': 'icon-sharereview-read',
+        'tables:update': 'icon-sharereview-edit',
+        'tables:create': 'icon-sharereview-create',
+        'tables:delete': 'icon-sharereview-perm-delete',
+        'tables:manage': 'icon-sharereview-manage',
+        'forms:read': 'icon-sharereview-read',
+        'forms:submit': 'icon-sharereview-submit',
+        'forms:edit': 'icon-sharereview-edit',
+        'forms:results': 'icon-sharereview-results',
+        'forms:results_delete': 'icon-sharereview-perm-delete',
+        'forms:embed': 'icon-sharereview-embed',
+        'sharereview:read': 'icon-sharereview-read',
+        'sharereview:update': 'icon-sharereview-edit',
+        'sharereview:create': 'icon-sharereview-create',
+        'sharereview:delete': 'icon-sharereview-perm-delete',
+        'sharereview:manage': 'icon-sharereview-manage',
+    },
+
+    escapeHtml: function (text) {
+        return String(text).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    },
+
     renderPermissions: function (data, type, row) {
-        let dataArray = data.split(';');
-        const perm = parseInt(dataArray[0]);
-        const isFileShare = (row.appId === 'files');
+        const permissions = Array.isArray(data) ? data : [];
 
-        const bits = [
-            { bit: 1,  cls: 'icon-sharereview-read',        label: t(APP_ID, 'Read') },
-            { bit: 2,  cls: 'icon-sharereview-edit',        label: t(APP_ID, 'Update') },
-            { bit: 4,  cls: 'icon-sharereview-create',      label: t(APP_ID, 'Create') },
-            { bit: 8,  cls: 'icon-sharereview-perm-delete', label: t(APP_ID, 'Delete') },
-            isFileShare
-                ? { bit: 16, cls: 'icon-sharereview-reshare', label: t(APP_ID, 'Re-share') }
-                : { bit: 16, cls: 'icon-sharereview-manage',  label: t(APP_ID, 'Manage') },
-        ];
+        if (type === 'sort' || type === 'type' || type === 'filter') {
+            return permissions.map(permission => permission.displayName).join(', ');
+        }
 
-        let permIcons = bits
-            .filter(b => perm & b.bit)
-            .map(b => '<div class="' + b.cls + '" title="' + b.label + '"></div>')
+        const escape = OCA.ShareReview.Visualization.escapeHtml;
+        let permIcons = permissions
+            .map(permission => {
+                const iconClass = OCA.ShareReview.Visualization.permissionIcons[permission.id] || 'icon-sharereview-more';
+                const title = permission.hint ? permission.displayName + ' — ' + permission.hint : permission.displayName;
+                return '<div class="' + iconClass + '" title="' + escape(title) + '"></div>';
+            })
             .join('&nbsp;');
 
-        let returnString = '<div style="display:flex; align-items:center;" permission="' + dataArray[0] + '">' + permIcons;
+        let returnString = '<div style="display:flex; align-items:center;">' + permIcons;
 
-        if (dataArray[1] !== '') {
+        if (row.password) {
             returnString += '&nbsp;<div class="icon-sharereview-password" title="' + t(APP_ID, 'Password protected') + '"></div>';
         }
-        if (dataArray[2] !== '') {
-            returnString += '&nbsp;<div class="icon-sharereview-calendar" title="' + t(APP_ID, 'Expiration date: ') + dataArray[2] + '"></div>';
+        if (row.expiration !== '') {
+            returnString += '&nbsp;<div class="icon-sharereview-calendar" title="' + t(APP_ID, 'Expiration date: ') + escape(row.expiration) + '"></div>';
         }
         returnString += '</div>';
         return returnString;

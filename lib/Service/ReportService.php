@@ -92,8 +92,7 @@ class ReportService {
 		foreach ($rows as $row) {
 			[$shareType, $recipient] = array_pad(explode(';', (string)$row['type'], 2), 2, '');
 			$typeText = $this->formatType((int)$shareType, $recipient);
-			[$permission, $password, $expiration] = explode(';', (string)$row['permissions']);
-			$permText = $this->formatPermission((int)$permission, $password, $expiration);
+			$permText = $this->formatPermission($row['permissions'], (bool)$row['password'], (string)$row['expiration']);
 			$timeText = $this->formatTime((string)$row['time']);
 			$lines[] = implode(',', [
 				$this->escapeCsv((string)$row['app']),
@@ -137,9 +136,9 @@ class ReportService {
 		foreach ($rows as $row) {
 			[$shareType, $recipient] = array_pad(explode(';', (string)$row['type'], 2), 2, '');
 			$typeText = $this->formatType((int)$shareType, $recipient);
-			[$permission, $password, $expiration] = explode(';', (string)$row['permissions']);
-			$permText = $this->formatPermission((int)$permission, $password, $expiration);
+			$permText = $this->formatPermission($row['permissions'], (bool)$row['password'], (string)$row['expiration']);
 			$timeText = $this->formatTime((string)$row['time']);
+			$permissionChunks = explode("\n", wordwrap($permText, 42, "\n", true));
 			$body[] = $this->formatRow([
 				(string)$row['app'],
 				$this->formatObject((string)$row['object'])
@@ -148,9 +147,12 @@ class ReportService {
 				'',
 				(string)$row['initiator'],
 				$typeText,
-				$permText,
+				$permissionChunks[0],
 				$timeText,
 			], [15, 20, 33, 42, 20]);
+			foreach (array_slice($permissionChunks, 1) as $permissionChunk) {
+				$body[] = $this->formatRow(['', '', '', $permissionChunk, ''], [15, 20, 33, 42, 20]);
+			}
 			$body[] = '';
 		}
 
@@ -217,18 +219,24 @@ class ReportService {
 		return $pdf;
 	}
 
-	private function formatPermission(int $permission, $password, $expiration): string {
-		$parts = [];
-		if ($permission & 1)  $parts[] = $this->l10n->t('Read');
-		if ($permission & 2)  $parts[] = $this->l10n->t('Update');
-		if ($permission & 4)  $parts[] = $this->l10n->t('Create');
-		if ($permission & 8)  $parts[] = $this->l10n->t('Delete');
-		if ($permission & 16) $parts[] = $this->l10n->t('Re-share');
-		$label = $parts !== [] ? implode(', ', $parts) : $this->l10n->t('None');
+	/**
+	 * Keep in sync with renderPermissions() in js/visualization.js — the export
+	 * must carry the same level of detail as the share review frontend.
+	 *
+	 * @param list<array{id: string, displayName: string, hint: ?string, priority: int}> $permissions
+	 */
+	private function formatPermission(array $permissions, bool $hasPassword, string $expiration): string {
+		$label = $permissions !== []
+			? implode(', ', array_column($permissions, 'displayName'))
+			: $this->l10n->t('None');
 
-		$passLabel = $password !== '' ? ' ' . $this->l10n->t('Password protected') : '';
-		$expLabel = $expiration !== '' ? ' ' . $expiration : '';
-		return $label . $passLabel . $expLabel;
+		if ($hasPassword) {
+			$label .= ', ' . $this->l10n->t('Password protected');
+		}
+		if ($expiration !== '') {
+			$label .= ', ' . $expiration;
+		}
+		return $label;
 	}
 
 	private function formatType(int $type, string $recipient): string {
