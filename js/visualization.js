@@ -63,6 +63,7 @@ OCA.ShareReview.Visualization = {
 
         let columnTitles = {
             app: t(APP_ID, 'App'),
+            appId: t(APP_ID, 'appId'),
             object: t(APP_ID, 'Item'),
             initiator: t(APP_ID, 'Initiator'),
             type: t(APP_ID, 'Type'),
@@ -139,7 +140,7 @@ OCA.ShareReview.Visualization = {
             { bit: 4,  cls: 'icon-sharereview-create',      label: t(APP_ID, 'Create') },
             { bit: 8,  cls: 'icon-sharereview-perm-delete', label: t(APP_ID, 'Delete') },
             isFileShare
-                ? { bit: 16, cls: 'icon-sharereview-reshare', label: t(APP_ID, 'Re-share') }
+                ? { bit: 16, cls: 'icon-sharereview-reshare', label: t(APP_ID, 'Reshare') }
                 : { bit: 16, cls: 'icon-sharereview-manage',  label: t(APP_ID, 'Manage') },
         ];
 
@@ -238,6 +239,7 @@ OCA.ShareReview.Visualization = {
             let div = document.createElement('div');
             div.classList.add('icon-sharereview-delete');
             div.id = data;
+            div.title = t(APP_ID, 'Delete share');
             div.addEventListener('click', OCA.ShareReview.UI.handleDeleteClicked);
             return div;
         }
