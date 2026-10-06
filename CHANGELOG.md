@@ -1,5 +1,17 @@
 # Changelog
 
+### 2.4.0 - 2026-08-20
+### Added
+- Support the Nextcloud server share-review interface (`OCP\Share\ShareReview`, Nextcloud ≥ 34.0.2): list shares from apps implementing `IShareReviewSource` and authorize their deletion via the access-check event
+- Per-permission icons with hover hints for app shares, including password and expiration flags
+
+### Changed
+- Permissions are rendered from per-app permission rows in the table and the CSV/PDF exports; long permission lists wrap in the PDF instead of being truncated
+- Failed or denied share deletions now show an error instead of "Share deleted"
+
+### Deprecated
+- The app-local `OCA\ShareReview\Sources\SourceEvent`/`ISource` API — it keeps working and remains required for Nextcloud < 34.0.2, but will be removed once the app's minimum server version is ≥ 34
+
 ### 2.3.0 - 2026-06-17
 ### Changed 
 - NC34 compatibility

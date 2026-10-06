@@ -281,6 +281,10 @@ OCA.ShareReview.Backend = {
         })
             .then(response => response.json())
             .then(data => {
+                if (data !== true) {
+                    OCA.ShareReview.Notification.notification('error', t(APP_ID, 'Request could not be processed'));
+                    return;
+                }
                 if (document.getElementById('pauseUpdate').checked === false) {
                     OCA.ShareReview.Backend.getData();
                     OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Share deleted'));
@@ -300,15 +304,22 @@ OCA.ShareReview.Backend = {
             return fetch(requestUrl, {
                 method: 'DELETE',
                 headers: OCA.ShareReview.headers()
-            });
+            }).then(response => response.json()).catch(() => false);
         });
         Promise.all(promises)
-            .then(() => {
-                if (document.getElementById('pauseUpdate').checked === false) {
-                    OCA.ShareReview.Backend.getData();
-                    OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Share deleted'));
-                } else {
-                    OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Share deleted') + '. ' + t(APP_ID, 'Table not reloaded'));
+            .then(results => {
+                const anyDeleted = results.some(r => r === true);
+                const anyFailed = results.some(r => r !== true);
+                if (anyDeleted) {
+                    if (document.getElementById('pauseUpdate').checked === false) {
+                        OCA.ShareReview.Backend.getData();
+                        OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Share deleted'));
+                    } else {
+                        OCA.ShareReview.Notification.notification('success', t(APP_ID, 'Share deleted') + '. ' + t(APP_ID, 'Table not reloaded'));
+                    }
+                }
+                if (anyFailed) {
+                    OCA.ShareReview.Notification.notification('error', t(APP_ID, 'Request could not be processed'));
                 }
             })
             .catch(() => {
