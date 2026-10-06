@@ -29,7 +29,7 @@ OC.L10N.register(
     "Create" : "Opret",
     "Manage" : "Administrer ",
     "Password protected" : "Beskyttet med adgangskode",
-    "Deck" : "Opslag",
+    "Deck" : "Deck",
     "Talk room" : "Talk rum",
     "Team" : "Team",
     "Federation" : "Sammenkobling",
