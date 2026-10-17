@@ -32,6 +32,7 @@ OC.L10N.register(
     "Daily" : "Дневно",
     "Weekly" : "Неделно",
     "Monthly" : "Месечно",
+    "Format" : "Формат",
     "Save" : "Сними"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
