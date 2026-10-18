@@ -10,6 +10,7 @@ OC.L10N.register(
     "Type" : "Tip",
     "Permissions" : "Permisiuni",
     "Time" : "Interval orar",
+    "Action" : "Acțiune",
     "Select all" : "Selectează tot",
     "Read" : "Citit",
     "Update" : "Actualizare",
@@ -25,9 +26,11 @@ OC.L10N.register(
     "Group" : "Grup",
     "Other" : "Altele",
     "Reshare" : "Redistribuiți",
+    "Files" : "Fișiere",
     "Daily" : "Zilnic",
     "Weekly" : "Săptămânal",
     "Monthly" : "Lunar",
+    "Format" : "Format",
     "Save" : "Salvează"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");
