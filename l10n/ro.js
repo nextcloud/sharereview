@@ -16,6 +16,7 @@ OC.L10N.register(
     "Update" : "Actualizare",
     "Create" : "Crează",
     "Password protected" : "Protejat cu parolă",
+    "Deck" : "Deck",
     "Talk room" : "Camera de Talk",
     "Team" : "Echipă",
     "Federation" : "Federare",
