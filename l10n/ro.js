@@ -2,6 +2,8 @@ OC.L10N.register(
     "sharereview",
     {
     "Delete" : "Șterge",
+    "Are you sure?" : "Ești sigur?",
+    "Select folder" : "Selectează dosarul",
     "Settings saved" : "Setările au fost salvate",
     "OK" : "OK",
     "Cancel" : "Anulare",
@@ -28,6 +30,8 @@ OC.L10N.register(
     "Other" : "Altele",
     "Reshare" : "Redistribuiți",
     "Files" : "Fișiere",
+    "Delete selected" : "Șterge selecția",
+    "Schedule" : "Program",
     "Daily" : "Zilnic",
     "Weekly" : "Săptămânal",
     "Monthly" : "Lunar",
