@@ -17,6 +17,7 @@ OC.L10N.register(
     "Read" : "Citit",
     "Update" : "Actualizare",
     "Create" : "Crează",
+    "Manage" : "Gestionare",
     "Password protected" : "Protejat cu parolă",
     "Deck" : "Deck",
     "Talk room" : "Camera de Talk",
