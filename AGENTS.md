@@ -35,7 +35,7 @@ Three-layer structure: Controllers → Services → Helpers/Mapper.
 
 - **BackgroundJob** (`lib/BackgroundJob/GenerateReportJob.php`): `TimedJob` for scheduled report generation (daily/weekly/monthly), configured via `IAppConfig`.
 
-- **Event** (`lib/Sources/SourceEvent.php`): Event dispatcher hook allowing third-party apps to inject custom share sources into the share list.
+- **Events**: Third-party apps inject custom share sources into the share list via `OCP\Share\ShareReview\RegisterShareReviewSourceEvent` (Nextcloud ≥ 34.0.2) or the deprecated app-local `lib/Sources/SourceEvent.php`; both are dispatched and merged, the OCP registration wins on name collision. `lib/Event/ShareReviewAccessCheckListener.php` answers the `ShareReviewAccessCheckEvent` that source apps dispatch before deleting a share, granting access to users the app is enabled for.
 
 ### Frontend (JS)
 
