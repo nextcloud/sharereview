@@ -2,8 +2,13 @@ OC.L10N.register(
     "sharereview",
     {
     "Delete" : "Obriši",
+    "Are you sure?" : "Da li ste sigurni?",
+    "Request could not be processed" : "Zahtev ne može da se obradi",
     "Cancel" : "Poništi",
     "Search" : "Traži",
+    "Show _MENU_ entries" : "Prikaži _MENU_ stavke",
+    "Showing _START_ to _END_ of _TOTAL_ entries" : "Prikazuju se stavke _START_ do _END_ od _TOTAL_ ukupno",
+    "Showing 0 to 0 of 0 entries" : "Prikazuju se stavke 0 do 0 od 0 ukupno",
     "Type" : "Tip",
     "Read" : "Čitaj",
     "Password protected" : "Zaštćeno lozinkom",
@@ -15,6 +20,7 @@ OC.L10N.register(
     "Files" : "Fajlovi",
     "Daily" : "дневно",
     "Weekly" : "недељно",
+    "Format" : "Format",
     "Save" : "Sačuvaj"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

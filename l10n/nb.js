@@ -54,6 +54,7 @@ OC.L10N.register(
     "Daily" : "Daglig",
     "Weekly" : "Ukentlig",
     "Monthly" : "Månedlig",
+    "Format" : "Format",
     "Save" : "Lagre"
 },
 "nplurals=2; plural=(n != 1);");

@@ -40,6 +40,7 @@ OC.L10N.register(
     "Daily" : "ລາຍວັນ",
     "Weekly" : "ອາທິດ",
     "Monthly" : "Monthly",
+    "Format" : "ຮູບແບບ",
     "Save" : "ບັນທຶກ"
 },
 "nplurals=1; plural=0;");

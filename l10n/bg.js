@@ -40,6 +40,7 @@ OC.L10N.register(
     "Daily" : "Всеки ден",
     "Weekly" : "Всяка седмица",
     "Monthly" : "Месечно",
+    "Format" : "Формат",
     "Save" : "Запиши"
 },
 "nplurals=2; plural=(n != 1);");

@@ -37,6 +37,7 @@
     "Daily" : "Diario",
     "Weekly" : "Semanalmente",
     "Monthly" : "Mensualmente",
+    "Format" : "Formato",
     "Save" : "Guardar"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

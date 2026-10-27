@@ -2,9 +2,14 @@ OC.L10N.register(
     "sharereview",
     {
     "Delete" : "Slett",
+    "Are you sure?" : "Er du sikker?",
+    "Request could not be processed" : "Førespurnaden kunne ikkje handsamast",
     "OK" : "Greitt",
     "Cancel" : "Cancel",
     "Search" : "Søk",
+    "Show _MENU_ entries" : "Vis _MENU_ oppføringar",
+    "Showing _START_ to _END_ of _TOTAL_ entries" : "Viser _START_ til _END_ av _TOTAL_ oppføringar",
+    "Showing 0 to 0 of 0 entries" : "Viser 0 til 0 av 0 oppføringar",
     "App" : "Applikasjon",
     "Type" : "Skriv",
     "Time" : "Tid",
@@ -22,6 +27,7 @@ OC.L10N.register(
     "Daily" : "Kvar dag",
     "Weekly" : "Kvar veke",
     "Monthly" : "Månadleg",
+    "Format" : "Format",
     "Save" : "Lagre"
 },
 "nplurals=2; plural=(n != 1);");

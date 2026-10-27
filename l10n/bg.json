@@ -38,6 +38,7 @@
     "Daily" : "Всеки ден",
     "Weekly" : "Всяка седмица",
     "Monthly" : "Месечно",
+    "Format" : "Формат",
     "Save" : "Запиши"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

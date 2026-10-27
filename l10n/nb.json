@@ -52,6 +52,7 @@
     "Daily" : "Daglig",
     "Weekly" : "Ukentlig",
     "Monthly" : "Månedlig",
+    "Format" : "Format",
     "Save" : "Lagre"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

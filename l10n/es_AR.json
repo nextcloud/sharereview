@@ -22,12 +22,14 @@
     "Deck" : "Deck",
     "Federation" : "Federación",
     "E-mail" : "Correo electrónico",
+    "Link" : "Enlace",
     "User" : "Usuario",
     "None" : "Ninguno",
     "Group" : "Grupo",
     "Files" : "Archivo",
     "Daily" : "Diariamente",
     "Weekly" : "Semanalmente",
+    "Format" : "Formato",
     "Save" : "Guardar"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

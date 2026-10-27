@@ -2,10 +2,15 @@ OC.L10N.register(
     "sharereview",
     {
     "Delete" : "Fshi",
+    "Are you sure?" : "Jeni i sigurt?",
+    "Request could not be processed" : "Kërkesa nuk mund të përpunohej",
     "Settings saved" : "Opsjonet u Ruajtën.",
     "OK" : "OK",
     "Cancel" : "Anuloje",
     "Search" : "Kërko",
+    "Show _MENU_ entries" : "Shfaq _MENU_ zëra",
+    "Showing _START_ to _END_ of _TOTAL_ entries" : "Po shfaqen _START_ deri _END_ nga _TOTAL_ zëra",
+    "Showing 0 to 0 of 0 entries" : "Po shfaqen 0 deri 0 nga 0 zëra",
     "App" : "Aplikacion",
     "Type" : "Tipi",
     "Permissions" : "Lejet",
@@ -28,6 +33,7 @@ OC.L10N.register(
     "Files" : "Skedarë",
     "Daily" : "Përditë",
     "Weekly" : "Çdo javë",
+    "Format" : "Format",
     "Save" : "Ruaje"
 },
 "nplurals=2; plural=(n != 1);");

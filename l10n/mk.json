@@ -1,9 +1,13 @@
 { "translations": {
     "Delete" : "Избриши",
+    "Are you sure?" : "Дали сте сигурни?",
+    "Request could not be processed" : "Барањето не може да се обработи",
     "Settings saved" : "Параматрите се зачувани",
     "OK" : "Добро",
     "Cancel" : "Откажи",
     "Search" : "Барај",
+    "Show _MENU_ entries" : "Прикажи _MENU_ записи",
+    "Showing _START_ to _END_ of _TOTAL_ entries" : "Прикажани _START_ до _END_ од _TOTAL_ записи",
     "Showing 0 to 0 of 0 entries" : "Прикажани 0 до 0 од 0 записи",
     "App" : "Апликација",
     "Type" : "Вид",
