@@ -14,11 +14,17 @@ use OCA\ShareReview\Helper\TalkHelper;
 use OCA\ShareReview\Helper\DeckHelper;
 use OCA\ShareReview\Db\ShareMapper;
 use OCA\ShareReview\Helper\CircleHelper;
+use OCA\ShareReview\Sources\ISource;
 use OCA\ShareReview\Sources\SourceEvent;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\PreConditionNotMetException;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\ShareReview\IShareReviewSource;
+use OCP\Share\ShareReview\RegisterShareReviewSourceEvent;
+use OCP\Share\ShareReview\ShareReviewEntry;
+use OCP\Share\ShareReview\ShareReviewPermission;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
@@ -31,9 +37,24 @@ use OCP\IL10N;
 
 class ShareService {
 
+	/**
+	 * Mirror OCP\Share\ShareReview\ShareReviewPermission::FILES_* — not referenced
+	 * directly so the app keeps running on servers without that class.
+	 */
+	private const PERM_FILES_READ = 'files:read';
+	private const PERM_FILES_UPDATE = 'files:update';
+	private const PERM_FILES_CREATE = 'files:create';
+	private const PERM_FILES_DELETE = 'files:delete';
+	private const PERM_FILES_RESHARE = 'files:reshare';
+
+	/** @var array<string, IShareReviewSource|ISource>|null */
 	private ?array $dataSources = null;
 	private static array $displayNameCache = [];
 	private array $dateTimeCache = [];
+	/** @var array<int, array{id: string, displayName: string, hint: ?string, priority: int}>|null */
+	private ?array $filePermissionRows = null;
+	/** @var array<int, array{id: string, displayName: string, hint: ?string, priority: int}>|null */
+	private ?array $legacyPermissionRows = null;
 
 	public function __construct(
 		private readonly IAppConfig $appConfig,
@@ -50,6 +71,7 @@ class ShareService {
 		private readonly CircleHelper $circleHelper,
 		private readonly IEventDispatcher $dispatcher,
 		private readonly IL10N $l10n,
+		private readonly ContainerInterface $container,
 	) {
 	}
 
@@ -157,7 +179,9 @@ class ShareService {
 			'object' => $share['object'],
 			'initiator' => $initiatorDisplay,
 			'type' => $type . ';' . $recipientDisplay,
-			'permissions' => $this->buildPermissions($share),
+			'permissions' => $share['permissions'],
+			'password' => (bool)($share['password'] ?? false),
+			'expiration' => (string)($share['expiration'] ?? ''),
 			'time' => $share['time'],
 			'action' => $this->buildAction($share),
 		];
@@ -197,12 +221,6 @@ class ShareService {
 
 		$timestamp = strtotime((string)$time);
 		return $timestamp === false ? 0 : $timestamp;
-	}
-
-	private function buildPermissions(array $share): string {
-		$password = ($share['password'] ?? '') !== '' ? $share['password'] : '';
-		$expiration = ($share['expiration'] ?? '') !== '' ? $share['expiration'] : '';
-		return $share['permissions'] . ';' . $password . ';' . $expiration;
 	}
 
 	private function buildAction(array $share): string {
@@ -301,9 +319,9 @@ class ShareService {
 			'initiator' => $share['uid_initiator'],
 			'type' => $share['share_type'],
 			'recipient' => $recipient,
-			'permissions' => $share['permissions'],
+			'permissions' => $this->filePermissionsToList((int)$share['permissions']),
 			'password' => ($share['password'] ?? '') !== '',
-			'expiration' => $share['expiration'],
+			'expiration' => (string)($share['expiration'] ?? ''),
 			'parent' => $share['parent'],
 			'timestamp' => (int)$share['stime'],
 			'time' => $this->getFormattedTime((int)$share['stime']),
@@ -314,31 +332,142 @@ class ShareService {
 	private function getAppShares(): array {
 		$formated = [];
 		foreach ($this->getRegisteredSources() as $appId => $app) {
-			foreach ($app->getShares() as $share) {
-				$formated[] = $share + ['app' => $appId];
+			foreach ($app->getShares() as $entry) {
+				$formated[] = $entry instanceof ShareReviewEntry
+					? $this->appShareEntryToArray($entry, $appId)
+					: $this->legacyAppShareToArray($entry, $appId);
 			}
 		}
 		return $formated;
 	}
 
+	/**
+	 * Convert a ShareReviewEntry to the internal share array shape shared with files shares.
+	 */
+	private function appShareEntryToArray(ShareReviewEntry $entry, string $appId): array {
+		$permissions = array_map(
+			static fn (ShareReviewPermission $permission): array => [
+				'id' => $permission->id,
+				'displayName' => $permission->displayName,
+				'hint' => $permission->hint,
+				'priority' => $permission->priority,
+			],
+			$entry->permissions,
+		);
+		usort($permissions, static fn (array $a, array $b): int => $b['priority'] <=> $a['priority']);
+
+		return [
+			'id' => $entry->id,
+			'app' => $appId,
+			'object' => $entry->object,
+			'initiator' => $entry->initiator,
+			'type' => $entry->type,
+			'recipient' => $entry->recipient,
+			'permissions' => $permissions,
+			'action' => $entry->action,
+			'timestamp' => $entry->lastModifiedTimestamp,
+			'time' => $this->getFormattedTime($entry->lastModifiedTimestamp),
+			'password' => $entry->hasPassword,
+			'expiration' => $entry->expirationTimestamp !== null ? date('Y-m-d H:i:s', $entry->expirationTimestamp) : '',
+			'parent' => $entry->parent,
+		];
+	}
+
+	/**
+	 * Map a legacy ISource share array onto the normalized row shape with
+	 * permission rows instead of a bitmask.
+	 */
+	private function legacyAppShareToArray(array $share, string $appId): array {
+		$share += ['app' => $appId];
+		$share['permissions'] = $this->legacyPermissionsToList((int)($share['permissions'] ?? 1));
+		$share['password'] = (bool)($share['password'] ?? false);
+		$share['expiration'] = (string)($share['expiration'] ?? '');
+		return $share;
+	}
+
+	/**
+	 * Map a files-share permission bitmask to the same serialized permission
+	 * list the app sources deliver. The rows are immutable and identical for
+	 * every share, so they are built once per request.
+	 *
+	 * @return list<array{id: string, displayName: string, hint: ?string, priority: int}>
+	 */
+	private function filePermissionsToList(int $permissions): array {
+		$this->filePermissionRows ??= [
+			1 => ['id' => self::PERM_FILES_READ, 'displayName' => $this->l10n->t('Read'), 'hint' => null, 'priority' => 80],
+			2 => ['id' => self::PERM_FILES_UPDATE, 'displayName' => $this->l10n->t('Update'), 'hint' => null, 'priority' => 70],
+			4 => ['id' => self::PERM_FILES_CREATE, 'displayName' => $this->l10n->t('Create'), 'hint' => null, 'priority' => 60],
+			8 => ['id' => self::PERM_FILES_DELETE, 'displayName' => $this->l10n->t('Delete'), 'hint' => null, 'priority' => 50],
+			16 => ['id' => self::PERM_FILES_RESHARE, 'displayName' => $this->l10n->t('Re-share'), 'hint' => null, 'priority' => 40],
+		];
+
+		return $this->permissionRowsFromBitmask($this->filePermissionRows, $permissions);
+	}
+
+	/**
+	 * Map a legacy ISource permission bitmask to permission rows in this
+	 * app's own namespace. Bit 16 renders as "Manage" for app shares.
+	 *
+	 * @return list<array{id: string, displayName: string, hint: ?string, priority: int}>
+	 */
+	private function legacyPermissionsToList(int $permissions): array {
+		$this->legacyPermissionRows ??= [
+			1 => ['id' => 'sharereview:read', 'displayName' => $this->l10n->t('Read'), 'hint' => null, 'priority' => 80],
+			2 => ['id' => 'sharereview:update', 'displayName' => $this->l10n->t('Update'), 'hint' => null, 'priority' => 70],
+			4 => ['id' => 'sharereview:create', 'displayName' => $this->l10n->t('Create'), 'hint' => null, 'priority' => 60],
+			8 => ['id' => 'sharereview:delete', 'displayName' => $this->l10n->t('Delete'), 'hint' => null, 'priority' => 50],
+			16 => ['id' => 'sharereview:manage', 'displayName' => $this->l10n->t('Manage'), 'hint' => null, 'priority' => 40],
+		];
+
+		return $this->permissionRowsFromBitmask($this->legacyPermissionRows, $permissions);
+	}
+
+	/**
+	 * @param array<int, array{id: string, displayName: string, hint: ?string, priority: int}> $rowsByBit
+	 * @return list<array{id: string, displayName: string, hint: ?string, priority: int}>
+	 */
+	private function permissionRowsFromBitmask(array $rowsByBit, int $permissions): array {
+		$rows = [];
+		foreach ($rowsByBit as $bit => $row) {
+			if ($permissions & $bit) {
+				$rows[] = $row;
+			}
+		}
+		return $rows;
+	}
+
+	/**
+	 * Resolve the sources registered through the OCP event (Nextcloud >= 34.0.2)
+	 * and the app-local SourceEvent, keyed by source name. The first registration
+	 * of a name wins, so on a collision the OCP-registered source shadows a
+	 * legacy-registered one.
+	 */
 	private function getRegisteredSources(): array {
 		if ($this->dataSources !== null) {
 			return $this->dataSources;
 		}
 
-		$dataSources = [];
-		$event = new SourceEvent();
-		$this->dispatcher->dispatchTyped($event);
+		$classes = [];
+		if (class_exists(RegisterShareReviewSourceEvent::class)) {
+			$ocpEvent = new RegisterShareReviewSourceEvent();
+			$this->dispatcher->dispatchTyped($ocpEvent);
+			$classes = $ocpEvent->getSources();
+		}
+		$legacyEvent = new SourceEvent();
+		$this->dispatcher->dispatchTyped($legacyEvent);
+		$classes = array_unique(array_merge($classes, $legacyEvent->getSources()));
 
-		foreach ($event->getSources() as $class) {
+		$dataSources = [];
+		foreach ($classes as $class) {
 			try {
-				$uniqueId = \OC::$server->get($class)->getName();
+				$source = $this->container->get($class);
+				$uniqueId = $source->getName();
 				if (isset($dataSources[$uniqueId])) {
 					$this->logger->error('Data source with the same ID already registered: ' . $uniqueId);
 					continue;
 				}
-				$dataSources[$uniqueId] = \OC::$server->get($class);
-			} catch (\Error $e) {
+				$dataSources[$uniqueId] = $source;
+			} catch (\Throwable $e) {
 				$this->logger->error('Can not initialize data source: ' . json_encode($class));
 				$this->logger->error($e->getMessage());
 			}
