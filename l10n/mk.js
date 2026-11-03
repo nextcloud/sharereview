@@ -21,6 +21,7 @@ OC.L10N.register(
     "Update" : "Ажурирај",
     "Create" : "Креирај",
     "Password protected" : "Заштитено со лозинка",
+    "Expiration date: " : "Рок на траење:",
     "Deck" : "Deck",
     "Talk room" : "Соба за разговор",
     "Team" : "Тим",
