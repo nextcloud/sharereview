@@ -29,8 +29,9 @@ This prevents accidental exposure of the shared content to all users.
 ## Register shares from another app
 
 Other Nextcloud apps can add their own share types to Share Review by listening for
-`OCA\ShareReview\Sources\SourceEvent`. The registered source class is resolved from
-Nextcloud's dependency injection container when Share Review loads the share list.
+`OCP\Share\ShareReview\RegisterShareReviewSourceEvent` (available since Nextcloud
+34.0.2). The registered source class is resolved from Nextcloud's dependency
+injection container when Share Review loads the share list.
 
 ### 1. Register an event listener
 
@@ -38,10 +39,10 @@ Register the listener in the external app's `Application::register()` method:
 
 ```php
 use OCA\MyApp\ShareReview\ShareReviewListener;
-use OCA\ShareReview\Sources\SourceEvent;
+use OCP\Share\ShareReview\RegisterShareReviewSourceEvent;
 
 public function register(IRegistrationContext $context): void {
-	$context->registerEventListener(SourceEvent::class, ShareReviewListener::class);
+	$context->registerEventListener(RegisterShareReviewSourceEvent::class, ShareReviewListener::class);
 }
 ```
 
@@ -52,13 +53,13 @@ The listener adds the source class to the event:
 ```php
 namespace OCA\MyApp\ShareReview;
 
-use OCA\ShareReview\Sources\SourceEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Share\ShareReview\RegisterShareReviewSourceEvent;
 
 class ShareReviewListener implements IEventListener {
 	public function handle(Event $event): void {
-		if (!$event instanceof SourceEvent) {
+		if (!$event instanceof RegisterShareReviewSourceEvent) {
 			return;
 		}
 
@@ -74,32 +75,45 @@ The source class must provide these methods:
 ```php
 namespace OCA\MyApp\ShareReview;
 
-use OCA\ShareReview\Sources\ISource;
+use OCP\Share\ShareReview\IShareReviewSource;
+use OCP\Share\ShareReview\ShareReviewEntry;
+use OCP\Share\ShareReview\ShareReviewPermission;
 
-class ShareReviewSource implements ISource {
+class ShareReviewSource implements IShareReviewSource {
+	public const PERMISSION_READ = 'myapp:read';
+	public const PERMISSION_PUBLISH = 'myapp:publish';
+
 	public function getName(): string {
 		return 'MyApp';
 	}
 
+	/** @return list<ShareReviewEntry> */
 	public function getShares(): array {
 		return [
-			[
-				'id' => 123, // Unique app-specific identifier passed to deleteShare().
-				'object' => 'Example object', // Display name, such as a file path or report name.
-				'initiator' => 'alice', // User ID of the initiator.
-				'type' => 0, // One of the OCP\Share\IShare type constants.
-				'recipient' => 'bob', // User ID, group ID, email address, or link token.
-				'permissions' => 1, // Permission bitmask. Use 1 as the default if not set.
-				'password' => true, // Whether the share is password protected. Do not return the password.
-				'expiration' => '2026-12-31', // Optional expiration date displayed for the share.
-				'time' => '2026-05-31 12:00:00', // Creation time. Use '1970-01-01 01:00:00' if null.
-				'action' => '', // Optional deletion identifier override. Empty uses id.
-			],
+			new ShareReviewEntry(
+				id: '123', // Unique app-specific identifier passed to deleteShare().
+				object: 'Example object', // Display name, such as a file path or report name.
+				initiator: 'alice', // User ID of the initiator.
+				type: 0, // One of the OCP\Share\IShare type constants.
+				recipient: 'bob', // User ID, group ID, email address, or link token.
+				lastModifiedTimestamp: 1748685600, // Unix timestamp of creation or last modification, whichever is later. Pass 0 if not tracked.
+				permissions: [ // Granted permissions. Every ID must be namespaced with your own
+					// app ID ("<appId>:<permission>") — apps never share identifiers, even for
+					// permissions with the same name. Translate labels and hints with your own
+					// app's IL10N: the app owning a permission also owns its wording.
+					new ShareReviewPermission(self::PERMISSION_READ, $this->l->t('Read'), priority: 80),
+					new ShareReviewPermission(self::PERMISSION_PUBLISH, $this->l->t('Publish'), $this->l->t('Publish the object to the portal'), 30),
+				],
+				hasPassword: true, // Whether the share is password protected. Never the password itself.
+				expirationTimestamp: 1767139200, // Optional expiration Unix timestamp of the share.
+			),
 		];
 	}
 
 	public function deleteShare(string $shareId): bool {
-		// Delete the app-specific share and return whether deletion succeeded.
+		// Dispatch OCP\Share\ShareReview\Events\ShareReviewAccessCheckEvent first and
+		// delete only when access was granted — see the event's documentation.
+		// Then delete the app-specific share and return whether deletion succeeded.
 		return true;
 	}
 }
@@ -108,6 +122,14 @@ class ShareReviewSource implements ISource {
 See the
 [Analytics integration](https://github.com/rello/analytics/tree/master/lib/ShareReview)
 for a working implementation.
+
+### Legacy API (deprecated)
+
+The app-local `OCA\ShareReview\Sources\SourceEvent`/`ISource` extension API keeps
+working, but is deprecated. It is required only on Nextcloud < 34.0.2, where the
+`OCP\Share\ShareReview` classes do not exist. It will be removed once this app's
+minimum supported server version is raised to Nextcloud 34 or later. If both APIs
+register a source with the same name, the OCP-registered source wins.
 
 ## Maintainers
 - [Marcel Scherello](https://github.com/rello) (author, project leader)
