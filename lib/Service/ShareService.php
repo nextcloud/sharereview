@@ -147,6 +147,7 @@ class ShareService {
 		$recipientDisplay = $recipientId ? $this->getCachedDisplayName($type, $recipientId) : '';
 		$initiatorDisplay = ($share['initiator'] ?? '') ? $this->getCachedDisplayName(IShare::TYPE_USER, $share['initiator']) : '';
 		if (!empty($share['parent'])) {
+			// TRANSLATORS "Reshare" is used twice: as share permission (the recipient may share the item again) and as label after the recipient of a share that is itself a reshare
 			$reshareLabel = $this->l10n->t('Reshare');
 			$recipientDisplay = $recipientDisplay !== '' ? $recipientDisplay . ' (' . $reshareLabel . ')' : $reshareLabel;
 		}
