@@ -223,7 +223,8 @@ class ReportService {
 		if ($permission & 2)  $parts[] = $this->l10n->t('Update');
 		if ($permission & 4)  $parts[] = $this->l10n->t('Create');
 		if ($permission & 8)  $parts[] = $this->l10n->t('Delete');
-		if ($permission & 16) $parts[] = $this->l10n->t('Re-share');
+		// TRANSLATORS "Reshare" is used twice: as share permission (the recipient may share the item again) and as label after the recipient of a share that is itself a reshare
+		if ($permission & 16) $parts[] = $this->l10n->t('Reshare');
 		$label = $parts !== [] ? implode(', ', $parts) : $this->l10n->t('None');
 
 		$passLabel = $password !== '' ? ' ' . $this->l10n->t('Password protected') : '';

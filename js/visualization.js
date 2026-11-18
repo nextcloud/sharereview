@@ -139,7 +139,8 @@ OCA.ShareReview.Visualization = {
             { bit: 4,  cls: 'icon-sharereview-create',      label: t(APP_ID, 'Create') },
             { bit: 8,  cls: 'icon-sharereview-perm-delete', label: t(APP_ID, 'Delete') },
             isFileShare
-                ? { bit: 16, cls: 'icon-sharereview-reshare', label: t(APP_ID, 'Re-share') }
+                // TRANSLATORS "Reshare" is used twice: as share permission (the recipient may share the item again) and as label after the recipient of a share that is itself a reshare
+                ? { bit: 16, cls: 'icon-sharereview-reshare', label: t(APP_ID, 'Reshare') }
                 : { bit: 16, cls: 'icon-sharereview-manage',  label: t(APP_ID, 'Manage') },
         ];
 
